@@ -1,0 +1,118 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+    \section{Information Theory}
+        \subsection{Information}
+            Core concept:
+            \begin{displayquote}
+                "Highly improbable events bring more information to us while certain events bring no information."
+            \end{displayquote}
+            
+            The information of an event $x$ will therefore depends on its probability distribution $p(x)$. Let $h(\cdot)$ be the monotonic function of $p(x)$ that returns information. If $x$ and $y$ are unrelated events, we hope the information they take are also unrelated, so
+            \begin{align*}
+                &h(x,y)=h(x) + h(y)\\
+                &p(x,y)=p(x)p(y)
+            \end{align*}
+            Note that we can interpret $h(p(x))$ as $h(x)$ and $h(p(x, y))$ as $h(x, y)$. 
+            This means we can define
+            \[
+                h(x)=-\log_2p(x)
+            \]
+            Then $h(x)$ satisfies $2^{h(x)}=1/p(x)$. We can interpret this as
+            \begin{displayquote}
+                "$h(x)$ is the amount of bits that being enough for representing $1/p(x)$ in binary."
+            \end{displayquote}
+        \subsection{Entropy}
+            Let $x$ be the state that transmitted from a sender to a receiver.
+            Intuitively, the average amount of the information that $x$ carries is obtained by taking the expectation of information $h(x)$ with respect to the p.d.f. $p(x)$
+            \[
+                \sum_x p(x)h(x)=-\sum_x p(x)\log_2p(x)
+            \]
+            This is called the \textit{entropy} of the random variable $x$ and denote it by $\mathrm{H}[x]$. Since $\lim_{p\rightarrow0}p\ln p=0$, we just take $p(x)\ln p(x)=0$ when we encounter $p(x)=0$ for some $x$. The \textit{noiseless coding theorem}(not actually understand what the hell is this) states that entropy is a lower bound of the amount of bits that a random variable can transmits.
+            
+            In practice, we use $\ln p(x)$ instead of $\log_2 p(x)$. That is
+            \begin{align*}
+                &h(x)=-\ln p(x)\\
+                &\mathrm{H}[x] = -\sum_x p(x) \ln p(x)
+            \end{align*}
+            In this situation, we said the information is measured in the units of 'nats'.
+        \subsection{Maximize Entropy in Discrete Case}
+            Let $X=\{x_i\}_{i=1}^M$ be a discrete random variable and let $p$ be the distribution of $X$. For the problem
+            \[
+                \max \left(-\sum_i p(x_i)\ln p(x_i)\right) \quad subject~to \quad \sum_i p(x_i)=1
+            \]
+            The Lagrangian function is
+            \[
+                \Tilde{\mathrm{H}} = -\sum_i p(x_i)\ln p(x_i) + \lambda\left(\sum_i p(x_i) - 1\right)
+            \]
+            From $\partial\Tilde{H}/\partial p(x_k) = -(\ln p(x_k) + 1) + \lambda = 0$, we have $\lambda = \ln p(x_k) + 1$, $\forall~k=1,\dots,M$. Since $\sum_k p(x_k) = M\cdot e^{\lambda-1}=1$, $\lambda=\ln(1/M) + 1$. We have 
+            \[
+                p(x_k)=1/M,~\forall~k
+            \]
+            The entropy becomes $\mathrm{H}[x]=\ln M$.
+            
+        \subsection{Differential Entropy(Entrpoy in Continuous Case)}
+            Let $X$ be a continuous random variable and $p$ be the distribution of $X$. By M.V.T, we know there exists some $x_i$ such that
+            \[
+                \int_{i\Delta}^{(i+1)\Delta}p(x)dx=p(x_i)\Delta
+            \]
+            where $\Delta$ is the length of one partition of $X$. Now for any $x\in[i\Delta,(i+1)\Delta]$, we can use $p(x_i)\Delta$ to estimate its probability as long as $\Delta$ small enough. Here comes an entropy
+            \begin{align*}
+                \mathrm{H}_{\Delta} &= -\sum_i p(x_i)\Delta\ln(p(x_i)\Delta)\\
+                                    &= -\sum_i p(x_i)\Delta\ln(p(x_i)\Delta) + \sum_i p(x_i)\Delta\ln \Delta - \sum_i p(x_i)\Delta\ln \Delta\\
+                                    &= -\sum_i p(x_i)\Delta\ln p(x_i) - \ln\Delta
+            \end{align*}
+            Note that $\sum_i p(x_i)\Delta=1$. Take out the first term of right hand side,
+            \[
+                \lim_{\Delta\rightarrow0}-\sum_i p(x_i)\Delta\ln p(x_i)= - \int p(x)\ln p(x)dx
+            \]
+            This integral is called the \textit{differential entropy}. The equation between $\mathrm{H}_\Delta$ and the differential entropy shows the fact the we need lots of bits to describe a continuous variable.
+            
+            When it comes to multiple dimension we also have
+            \[
+                \mathrm{H}[\mathbf{x}]=-\int p(\mathbf{x})\ln p(\mathbf{x})d\mathbf{x}
+            \]
+        \subsection{Gaussian Maximize Differential Entropy}
+            We want to maximize
+            \[
+                \mathrm{H}[x]=-\int p(x)\ln p(x)dx
+            \]
+            with three constraints
+            \begin{align*}
+                &\int_{-\infty}^\infty p(x)dx=1\\
+                &\int_{-\infty}^\infty xp(x)dx=\mu\\
+                &\int_{-\infty}^\infty (x-\mu)^2p(x)dx=\sigma^2
+            \end{align*}
+            Here comes the Lagrangian function
+            \[
+                -\int_{\mathbb{R}}p(x)\ln p(x)dx + \lambda_1\left(\int_{\mathbb{R}}p(x)dx-1\right) + \lambda_2\left(\int_{\mathbb{R}}xp(x)dx-\mu\right)+\lambda_3\left(\int_{\mathbb{R}}(x-\mu)^2p(x)dx-\sigma^2\right)
+            \]
+            This is a functional $F[p]$. The derivative of a functional is denoted by $\frac{\delta F}{\delta p}$ and is defined to satisfy
+            \[
+                \int\frac{\delta F[p]}{\delta p}\phi(x)dx = \lim_{\epsilon\rightarrow0}\frac{F[p+\epsilon\phi]-F[p]}{\epsilon}=\left[\frac{d}{d\epsilon}F[p+\epsilon\phi]\right]_{\epsilon=0}
+            \]
+            where $\phi(x)$ is a variation term. Followed by the definition
+            \[
+                \int\frac{\delta F[p]}{\delta p}\phi(x)dx=\int\left(-(\ln p(x)+1)+\lambda_1+\lambda_2x+\lambda_3(x-\mu)^2\right)\phi(x)dx
+            \]
+            We have the actual form of $\frac{\delta F[p]}{\delta p}$ and can let it be zero then get
+            \[
+                p(x)=e^{-1+\lambda_1+\lambda_2x+\lambda(x-\mu)^2}
+            \]
+            Substitute this result back to three constraints leading to
+            \[
+                p(x)=\frac{1}{(2\pi\sigma^2)^{1/2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+            \]
+            Furthermore,
+            \[
+                \mathrm{H}[x] = \frac{1}{2}\{1+\ln(2\pi\sigma^2)\}
+            \]
+        
+        \subsection{Kullback-Leibler Divergence}
+            Let $p(x)$ be an unknown distribution and we use $q(x)$ to approximate it. This will cause additional amount of information when transmitting
+            \begin{align*}
+                \mathrm{KL}(p\|q)&=\left(-\int p(\mathbf{x})\ln q(\mathbf{x})d\mathbf{x}\right) - \left(-\int p(\mathbf{x})\ln p(\mathbf{x})d\mathbf{x}\right)\\
+                                 &=-\int p(\mathbf{x})\ln \left\{\frac{q(\mathbf{x})}{p(\mathbf{x})}\right\}d\mathbf{x}
+            \end{align*}
+            This is known as the \textit{relative entropy} or \textit{Kullback-Leiber divergence}, or \textit{KL divergence} between the distributions $p(\mathbf{x})$ and $q(\mathbf{x})$. Note that $\mathrm{KL}(p\|q)\neq\mathrm{KL}(q\|p)$.
+\end{document}

@@ -1,0 +1,34 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+    \section{Regression Loss Functions}
+        \subsection{\texorpdfstring{$L^p$}{Lp} Norm}
+            Let $\boldsymbol{y}(\boldsymbol{w},\boldsymbol{b}): \mathbb{R}^n \rightarrow \mathbb{R}^m$ be a model defined by $\boldsymbol{w}$ and $\boldsymbol{b}$ that map $\boldsymbol{x} \in \mathbb{R}^n$ into $\boldsymbol{y} \in \mathbb{R}^m$. Mathematically the $L^1$ norm is
+            \[
+                \| \boldsymbol{y}(\boldsymbol{w},\boldsymbol{b}) - \hat{\boldsymbol{y}} \|_1 = \sum_{k=1}^m \big| y_k(\boldsymbol{w},\boldsymbol{b}) - \hat{y}_k \big|
+            \]
+            The $L^p$ norm is
+            \[
+                \| \boldsymbol{y}(\boldsymbol{w},\boldsymbol{d}) - \hat{\boldsymbol{y}}\|_p = \left( \sum_{k=1}^m \big(y_k(\boldsymbol{w},\boldsymbol{b})-\hat{y}_k\big)^p \right)^{1/p}
+            \]
+            The $L^\infty$ norm is
+            \[
+                \| \boldsymbol{y}(\boldsymbol{w}, \boldsymbol{b}) - \hat{\boldsymbol{y}}\|_{\infty} = \max_{k} |y_k(\boldsymbol{w},\boldsymbol{b}) - \hat{y}_k|
+            \]
+        \subsection{Mean Absolute Error(\texorpdfstring{$L^1$}{L1} Loss)}
+            Suppose there are $N$ instances $\{ \boldsymbol{x}_i \}_{i=1}^N$. The MAE is defined by
+            \[
+                L(\boldsymbol{w},\boldsymbol{b}) = \frac{\sum_{n=1}^N \| \boldsymbol{y}^n(\boldsymbol{w},\boldsymbol{b}) - \hat{\boldsymbol{y}^n} \|_1}{N}
+            \]
+        \subsection{Mean Square Error(\texorpdfstring{$L^2$}{L2} Loss)}
+            Suppose there are $N$ instances $\{ \boldsymbol{x}_i \}_{i=1}^N$. The MSE is defined by
+            \[
+                L(\boldsymbol{w},\boldsymbol{b}) = \frac{\sum_{n=1}^N \| \boldsymbol{y}^n(\boldsymbol{w},\boldsymbol{b}) - \hat{\boldsymbol{y}^n}\|_2^2}{N}
+            \]
+        \subsection{Regularization}
+            Add new term
+            \[
+                \Tilde{L}(\boldsymbol{w},\boldsymbol{b}) = L(\boldsymbol{w},\boldsymbol{b}) + \lambda \| \boldsymbol{w} \|_2^2
+            \]
+            The last term will make loss function smoother since we also minimize weights.
+\end{document}

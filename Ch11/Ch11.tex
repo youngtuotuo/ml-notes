@@ -1,0 +1,23 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+    \section{K-means clustering}
+        Given $N$ data points $\{x_n\}_{n=1}^N\subset\mathbb{R}^D$. Initialize $K$ prototype vectors $\{\mu_k\}_{k=1}^K$. Each $\mu_k$ corresponds to the mean of the $k^\mathrm{th}$ cluster. Let $r_{nk}$ be indicator variable with respect to $x_n$ and $\mu_k$.
+        \[
+            r_{nk}=\left\{
+                \begin{array}{ll}
+                    1&\mathrm{if~}k=\argmin\|x_n-\mu_k\|^2\\
+                    0&\mathrm{otherwise}
+                \end{array}
+            \right.
+        \]
+        Then update $\mu_k$,
+        \[
+            \mu_k = \frac{\sum_n r_{nk}x_n}{\sum_n r_{nk}}
+        \]
+        Keep this procedure until
+        \[
+            J = \sum_{n=1}^N\sum_{k=1}^Kr_{nk}\|x_n-\mu_k\|^2
+        \]
+        converge.
+\end{document}

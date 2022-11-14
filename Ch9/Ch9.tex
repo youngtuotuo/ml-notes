@@ -1,0 +1,30 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+    \section{Logistic Regression}
+        Put the function of linear regression into sigmoid function, the output value will lie in $(0,1)$.
+        \[
+            f_{w,b}(x)=\sigma(w \cdot x + b)=\sigma\left(\sum_i w_ix_i+b\right)
+        \]
+        In the training set $\{(x_k,\hat{y}_k)\}_k$, $\hat{y}_k\in\{0,1\}$. $1$ for class $C_1$, $0$ for class $C_2$. If $(x_1,x_2,x_3,\dots)$ corresponds to $(1,1,0,\dots)$. The loss function
+        \[
+            L(w,b) = f_{w,b}(x_1)f_{w,b}(x_2)\big(1-f_{w,b}(x_3)\big)\dots,\quad w^*,b^*=\argmax_{w,b}L(w,b)
+        \]
+        Note that
+        \[
+            w^*,b^*=\argmin -\ln L(w,b)
+        \]
+        And
+        \begin{align*}
+            -\ln L(w,b) &= -\ln f_{w,b}(x_1)-\ln f_{w,b}(x_2)-\ln(1-f_{w,b}(x_3))\dots\\
+                        &= \sum_{k}-\left[\hat{y}_k \ln f_{w,b}(x_k)+(1-\hat{y}_k)\ln \big(1-f_{w,b}(x_k)\big)\right]
+        \end{align*}
+        The relation in the brackets $[~]$ is called the cross entropy between two Bernoulli distribution.
+        
+        \subsection{Comparison with Linear Regression}
+            Simple computation shows that
+            \[
+                \frac{\partial -\ln L(w,b)}{\partial w_i}=\sum_k -\big(\hat{y}_k-f_{w,b}(x_k)\big)x_{k,i}
+            \]
+            So $w_i$ will update in the same way with linear regression. The only difference between them is the range of output. Logistic regression lies in $(0,1)$ while linear regression can be any real number.
+\end{document}

@@ -1,0 +1,117 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+    \section{Basic Statistic Notions}
+        \subsection{Expected Value \texorpdfstring{$E[X]=\mu$}{}}
+            \[
+                E[X]=\left\{\begin{array}{ll}
+                        \sum x_ip_i& \mathrm{if~discrete} \\[0.2cm]
+                        \int_{\mathbb{R}}xf(x)dx & \mathrm{if~continuous}
+                \end{array}\right.
+            \]
+        \subsection{Variance \texorpdfstring{$var[X]=\sigma_X^2$}{}}
+            \[
+                var[X]=\left\{\begin{array}{ll}
+                        \sum (x_i-\mu)^2p_i& \mathrm{if~discrete} \\[0.2cm]
+                        \int_{\mathbb{R}}(x-\mu)^2f(x)dx & \mathrm{if~continuous}
+                \end{array}\right.
+            \]
+            If $X$ is continuous, $var[X]=E[(X-E[X])^2]=E[X^2] - E[X]^2$.
+        \subsection{Standard Deviation \texorpdfstring{$\sigma_X$}{}}
+            \[
+                \sigma_X=\left\{\begin{array}{ll}
+                        \sqrt{\sum(x_i-\mu)^2p_i}& \mathrm{if~discrete} \\[0.2cm]
+                        \sqrt{\int_{\mathbb{R}}(x-\mu)^2f(x)dx} & \mathrm{if~continuous}
+                \end{array}\right.
+            \]
+            Note that $\sigma_X=\sqrt{var[X]}$. If $X$ is discrete and each $p_i=\frac{1}{N}$, $\sigma_X=\sqrt{\frac{\sum(x_i-\mu)^2}{N}}$.
+        \subsection{Covariance \texorpdfstring{$cov[X,Y]$}{}}
+            \subsubsection{Two Variables}
+                $X,Y$ are random variables with space $\mathbb{R}$.
+                \[
+                cov[X,Y]=\left\{\begin{array}{ll}
+                        \sum p_i(x_i-\mu_X)(y_i-\mu_Y)& \mathrm{if~discrete} \\[0.2cm]
+                        \int_{\mathbb{R}\times\mathbb{R}}(x-\mu_X)(y-\mu_Y)f(x,y) & \mathrm{if~continuous}
+                \end{array}\right.
+                \]
+                Note that $cov[X,X]=var[X]$ and covariance matrix
+                $
+                    \Sigma = \begin{pmatrix}
+                        cov[X,X] & cov[X,Y]\\
+                        cov[Y,X] & cov[Y,Y]
+                    \end{pmatrix}
+                $
+            \subsubsection{More Variables}
+                $X_1,X_2,\dots,X_n$ are random variables with space $\mathbb{R}$.\\
+                The covariance matrix $\Sigma$ is
+                \[
+                    \Sigma = \begin{pmatrix}
+                        cov[X_1,X_1] & cov[X_1,X_2] & \cdots & cov[X_1,X_n]\\
+                        cov[X_2,X_1] & cov[X_2,X_2] & \cdots & cov[X_2,X_n]\\
+                        \vdots & \vdots & \ddots & \vdots\\
+                        cov[X_n,X_1] & cov[X_n,X_2] & \cdots & cov[X_n,X_n]
+                    \end{pmatrix}
+                \]
+                Or let $X=(X_1,X_2,\dots,X_n)$, $\Sigma=cov[X,X]=E[(X-E[X])(X-E[X])^T]$.
+                
+        \subsection{Correlation \texorpdfstring{$corr[X,Y]=\rho_{X,Y}$}{}}
+            $corr[X,Y]=\frac{cov[X,Y]}{\sigma_X \sigma_Y}\in[-1,1]$.
+        \subsection{Assume sample come from one distribution}
+            \subsubsection{Gaussian Distribution}
+                \[
+                    f_{\mu,\Sigma}(x)=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}e^{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)}
+                \]
+                where $x$ vector, $D$ for dimension, $\mu$ mean vector, $\Sigma$ covariance matrix.\\
+                An unknown $f_{\mu,\Sigma}(x)$ samples $n$ points $x_1,\dots,x_n$. The likelihood function
+                \[
+                    L(\mu,\Sigma)=f_{\mu,\Sigma}(x_1)f_{\mu,\Sigma}(x_2)\cdots f_{\mu,\Sigma}(x_n)
+                \]
+                Higher value of the likelihood function means higher probability to sample $x_1,\dots,x_n$. The maximum likelihood estimator $(\mu^*,\Sigma^*)$ is
+                \[
+                    \mu^*,\Sigma^* = \argmax_{\mu,\Sigma} L(\mu,\Sigma)
+                \]
+                Also, for $l(\mu,\Sigma)=\ln L(\mu,\Sigma)$,
+                \[
+                    \mu^*,\Sigma^* = \argmax_{\mu,\Sigma} l(\mu,\Sigma)
+                \]
+                Then Gaussian distribution
+                \[\mu^* = \frac{1}{n}\sum_1^n x_i,\quad \Sigma^* = \frac{1}{n}\sum_1^n(x_i-\mu^*)(x_i-\mu^*)^T\]
+    
+        \subsection{Two Classes \texorpdfstring{$C_1,C_2$}{}}
+            $C_1$ has $\{x_i\}_1^{70}$, $C_2$ has $\{x_i\}_{71
+            }^{180}$. The posterior probability of an unknown object $x$ is
+            \[
+                P(C_1|x) = \frac{P(x|C_1)P(C_1)}{P(x|C_1)P(C_1)+P(x|C_2)P(C_2)}
+            \]
+            The terms $P(C_k)$ are easy to get. The terms $P(x|C_k)$ is based on the distribution we assumed. If it's Gaussian,
+            \[
+                P(x|C_1) = f_{\mu_1^*,\Sigma_1^*}(x),\quad P(x|C_2) = f_{\mu_2^*,\Sigma_2^*}(x)
+            \]
+            We can modify $\Sigma^*$ by
+            \[
+                \Sigma^* = \frac{70}{70+110}\Sigma_1^* + \frac{110}{70+110}\Sigma_2^*
+            \]
+            And let $C_1,C_2$ share this $\Sigma^*$, the likelihood function becomes
+            \[
+                L(\mu_1,\mu_2,\Sigma) = f_{\mu_1,\Sigma}(x_1)\cdots f_{\mu_1,\Sigma}(x_{70})f_{\mu_2,\Sigma}(x_{71})\cdots f_{\mu_2,\Sigma}(x_{180})
+            \]
+            $\mu_1^*,\mu_2^*,\Sigma^*$ are maximum likelihood estimators.
+            The new model will be a linear classifier. Explain in the following.
+
+            Let $z=\ln \frac{P(x|C_1)P(C_1)}{P(x|C_2)P(C_2)}$. Then
+            \[
+                P(C_1|x)=\frac{1}{1+e^{-z}}=\sigma(z),\quad\mathrm{the~sigmoid~function}.
+            \]
+            $P(x|C_k)=f_{\mu_k^*,\Sigma^*}(x)$, $k=1,2$. So
+            \[
+                z=\ln\frac{f_{\mu_1^*,\Sigma^*}(x)}{f_{\mu_2^*,\Sigma^*}(x)}+\ln\frac{P(C_1)}{P(C_2)}
+            \]
+            Put the details in and compute, we get
+            \[
+                z = (\mu_1^*-\mu_2^*)^T\Sigma^{*-1}x-\frac{1}{2}(\mu_1^*)^T\Sigma^{*-1}\mu_1^*+\frac{1}{2}(\mu_2^*)^T\Sigma^{*-1}\mu_2^*+\ln\frac{P(C_1)}{P(C_2)}
+            \]
+            Let $w^T=(\mu_1^*-\mu_2^*)^T\Sigma^{*-1}$, $b=-\frac{1}{2}(\mu_1^*)^T\Sigma^{*-1}\mu_1^*+\frac{1}{2}(\mu_2^*)^T\Sigma^{*-1}\mu_2^*+\ln\frac{P(C_1)}{P(C_2)}$. Then
+            \[
+                P(C_k|x)=\sigma(w \cdot x+b)
+            \]
+\end{document}

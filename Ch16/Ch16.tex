@@ -1,0 +1,98 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+    \section{Support Vector Machine}
+        Suppose there are $N$ data points $\mathbf{x}_1,\dots,\mathbf{x}_N$ and let $t_1,\dots,t_N$ be their labels where $t_k\in\{-1,1\}$ for all $k$. We want to find suitable $\phi(\mathbf{x}_k)$, weight $\mathbf{w}$ and bias $b$ that satisfies
+        \[
+            \mathbf{w}^T \phi(\mathbf{x}_k) + b 
+                    = \left\{
+                    \begin{array}{rl}
+                        > 0 & \mathrm{if ~} t_k = 1\\[0.2cm]
+                        < 0 & \mathrm{if ~} t_k = -1
+                    \end{array}
+                      \right. \quad \mathrm{for~all~}k
+        \]
+        This is a linear classifier in feature space. The distance of each data point to this hyper plane is
+        \[
+            \frac { |\mathbf{w}^T \phi(\mathbf{x}_k) + b| } {\|\mathbf{w}\|}
+        \]
+        According to \textit{statistical learning theory}(not actually understand), we want to maximize the minimal distance
+        \[
+            \argmax_{\mathbf{w}, b}\left\{\frac{1}{\|\mathbf{w}\|} \min_{k} |\mathbf{w}^T \phi(\mathbf{x}_k) + b|\right\}
+        \]
+        Since $t_k(\mathbf{w}^T \phi(\mathbf{x}_k) + b) > 0$ and $t_k\in\{-1,1\}$, the problem is equivalent to
+        \[
+            \argmax_{\mathbf{w},b}\left\{\frac{1}{\|\mathbf{w}\|}\min_k t_k(\mathbf{w}^T \phi(\mathbf{x}_k) + b)\right\}
+        \]
+        Observe that any rescaling of $\mathbf{w}$ and $b$ won't change the ultimate value, hence we can set
+        \[
+            t_k (\mathbf{w}^T \phi(\mathbf{x}_k) + b) = 1
+        \]
+        for those $\mathbf{x}_k$ that are closest to the hyper plane. Then other points yield
+        \[
+            t_k (\mathbf{w}^T \phi(\mathbf{x}_k) + b) \geq 1
+        \]
+        Now we simplify the problem into
+        \[
+            \argmax_{\mathbf{w},b}\frac{1}{ \|\mathbf{w}\| } \mathrm{\quad s.t. \quad} t_k (\mathbf{w}^T \phi(\mathbf{x}_k) + b) \geq 1 \mathrm{~for~all~}k
+        \]
+        It's equivalent to
+        \[
+            \argmin_{\mathbf{w}, b}\frac{1}{2} \|\mathbf{w}\|^2 \mathrm{\quad s.t. \quad} t_k(\mathbf{w}^T \phi(\mathbf{x}_k) + b)\geq 1\mathrm{~for~all~}k
+        \]
+        And gives the Lagrangian function
+        \[
+            \mathcal{L}(\mathbf{w}, b, \mathbf{a}) = \frac{1}{2} \|\mathbf{w}\|^2 + \sum_{k=1}^N a_k \big[1 - t_k (\mathbf{w}^T \phi(\mathbf{x}_k) + b)\big]
+        \]
+        where $\mathbf{a}=(a_1,\dots,a_N)^T\geq \mathbf{0}$. For
+        \[
+            \max_{\mathbf{a}}\min_{\mathbf{w},b}\mathcal{L}(\mathbf{w},b,\mathbf{a})\mathrm{\quad s.t. \quad}\mathbf{a}\geq 0
+        \]
+        let gradient vanish with respect to $\mathbf{w}$ and $b$
+        \begin{align*}
+            &\nabla_{\mathbf{w}}\mathcal{L}(\mathbf{w},b,\mathbf{a}) = \mathbf{w}-\sum_{k=1}^N a_k t_k \phi(\mathbf{x}_k) = 0\\
+            &\nabla_b \mathcal{L}(\mathbf{w},b,\mathbf{a}) = \sum_{k=1}^N a_kt_k = 0
+        \end{align*}
+        Substitute back then yield the dual form
+        \[
+            \max_{\mathbf{a}}\sum_{k=1}^N a_k - \frac{1}{2} \sum_{k=1}^N \sum_{m=1}^N a_k a_m t_k t_m \phi(\mathbf{x}_k)^T \phi(\mathbf{x}_m)
+        \]
+        subject to
+        \begin{align*}
+            a_k \geq 0,&\quad k=1,\dots,N\\
+            \sum_{k=1}^N a_k t_k = 0.&
+        \end{align*}
+        
+        Let $k(\mathbf{x},\mathbf{x}')=\phi(\mathbf{x})^T \phi(\mathbf{x}')$ stands for the kernel function and let $y(\mathbf{x}) = \mathbf{w}^T \phi(\mathbf{x}) + b$. When $\mathbf{w}$ is the solution, $\mathbf{w} = \sum_k a_k t_k \phi(\mathbf{x}_k)$. Put this into $y(\mathbf{x})$ and have
+        \[
+            y(\mathbf{x}) = \sum_{k=1}^N a_k t_k k(\mathbf{x}_k, \mathbf{x}) + b
+        \]
+        here we express the classifier in terms of $\{a_k\}$ and the kernel function $k(\mathbf{x}, \mathbf{x}')$.
+        
+        \subsection{Apply KKT Condition}
+            We have a primal problem
+            \[
+                \argmin_{\mathbf{w},b} \frac{1}{2} \|\mathbf{w}\|^2 \mathrm{\quad s.t. \quad} t_k y(\mathbf{x}_k) -1 \geq 0 \mathrm{~for~all~}k
+            \]
+            and a dual problem
+            \[
+                \max_{\mathbf{a}}\sum_{k=1}^N a_k - \frac{1}{2} \sum_{k=1}^N \sum_{m=1}^N a_k a_m t_k t_m k(\mathbf{x}_k, \mathbf{x}_m) \mathrm{\quad s.t. \quad} a_k \geq 0,~\forall~k\mathrm{~and~}\sum_{k=1}^N a_k t_k = 0
+            \]
+            The KKT condition needs further constraint that
+            \[
+                a_k \{t_k y(\mathbf{x}_k) - 1\} = 0
+            \]
+            This implies $a_k=0$ or $t_k y(\mathbf{x}_k)=1$. Any data point has $a_k=0$ will not contribute to the classifier. The rest data points have $t_k y(\mathbf{x}_k)=1$ are called \textit{support vector}.This tells us that we only need support vectors to predict new point though we need whole data to train. Mathematically, choose one support vector $\mathbf{x}'$, we can get $b$ by
+            \[
+                t' y(\mathbf{x}') = t'\left\{ \sum_{m} a_m t_m k(\mathbf{x}_m, \mathbf{x}') + b \right\} = 1
+            \]
+            where $m$ stands for the index of support vector. In practical, multiply each side by one label $t_k$ of one  support vector and have
+            \[
+                b = t_k - \left\{ \sum_m a_m t_m k(\mathbf{x}_m, \mathbf{x}_k) \right\} \mathrm{~for~all~}k
+            \]
+            Take the average of all possible $b$ as the final one
+            \[
+                b = \frac{1}{M} \sum_{k}\left(t_k - \left\{ \sum_m a_m t_m k(\mathbf{x}_m, \mathbf{x}_k) \right\}\right)
+            \]
+            where $M$ is the number of support vectors and $k$ and $m$ are both the index of support vector.
+\end{document}

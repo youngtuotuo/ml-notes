@@ -1,0 +1,63 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+    \section{Simple Regression Model}
+        \subsection{Linear}
+            \subsubsection{One Dimension}
+                Each instance has one attribute $x$ corresponds to one label $y$. 
+                \[
+                    y=wx+b,\quad y,~x,~w,~b\in\mathbb{R}
+                \]
+            \subsubsection{Multiple Dimensions}
+                Each instance has multiple attributes $x_1,\dots,x_n$ and multiple labels $y_1,\dots,y_m$.
+                \begin{align*}
+                    &\qquad\boldsymbol{y}=\boldsymbol{wx}+\boldsymbol{b},\\
+                    &\qquad\boldsymbol{x}\in\mathbb{R}^n, \\
+                    &\qquad\boldsymbol{w}\in\mathbb{R}^{m\times n},\\
+                    &\qquad\boldsymbol{y},~\boldsymbol{b}\in\mathbb{R}^m,\\
+                    \begin{pmatrix}
+                        y_1\\
+                        \vdots\\
+                        y_m
+                    \end{pmatrix}=&\begin{pmatrix}
+                        w_{11} & \dots & w_{1_n}\\
+                        \vdots & \ddots & \vdots\\
+                        w_{m1} & \dots & w_{mn}
+                    \end{pmatrix}\begin{pmatrix}
+                        x_1\\
+                        \vdots\\
+                        x_n
+                    \end{pmatrix}+\begin{pmatrix}
+                        b_1\\
+                        \vdots\\
+                        b_m
+                    \end{pmatrix}
+                \end{align*}
+
+        \subsection{Nonlinear(Polynomial Model)}
+            \subsubsection{One Dimension}
+                Each instance has one attribute $x$ correponds to one label $y$.
+                \begin{align*}
+                    y&=w_2x^2+w_1x+b, \\
+                    &\quad \vdots\\
+                    y&=w_kx^k+w_{k-1}x^{k-1}+\cdots+w_1x+b
+                \end{align*}
+            \subsubsection{Multiple Dimensions}
+                Each instance has multiple attributes $x_1,\dots,x_n$ and multiple labels $y_1,\dots,y_m$.
+                \begin{align*}
+                    \boldsymbol{y}&=\boldsymbol{w}_2\boldsymbol{x}^2+\boldsymbol{w}_1\boldsymbol{x}+\boldsymbol{b}, \\
+                    &\quad \vdots\\
+                    \boldsymbol{y}&=\boldsymbol{w}_k\boldsymbol{x}^k+\boldsymbol{w}_{k-1}\boldsymbol{x}^{k-1}+\dots+\boldsymbol{w}_1\boldsymbol{x}+\boldsymbol{b}
+                \end{align*}
+            where
+                \[
+                    \boldsymbol{x}^p=\left(\begin{array}{c}
+                        x_1^p\\
+                        \vdots\\
+                        x_n^p
+                    \end{array}\right),~
+                    \boldsymbol{w}_p \in \mathbb{R}^{m \times n},~
+                    \boldsymbol{y}, \boldsymbol{b} \in \mathbb{R}^m
+                \]
+\end{document}
+    
