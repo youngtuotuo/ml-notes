@@ -95,4 +95,73 @@
                 b = \frac{1}{M} \sum_{k}\left(t_k - \left\{ \sum_m a_m t_m k(\mathbf{x}_m, \mathbf{x}_k) \right\}\right)
             \]
             where $M$ is the number of support vectors and $k$ and $m$ are both the index of support vector.
+
+    \section{Soft Margin Support Vector Machine}
+        The original SVM is
+        \[
+            \min_{\mathbf{w},b} \frac{1}{2} \|\mathbf{w}\|^2 \mathrm{\quad s.t. \quad} t_k y(\mathbf{x}_k) \geq 1 \mathrm{~for~all~}k
+        \]
+        To allow some points can be misclassified, we introduce each point a \textit{slack variable} $\xi_k$ that is defined by
+        \[
+            \xi_k = \left\{
+                        \begin{array}{rl}
+                            0 & \mathrm{if ~} t_k y(\mathbf{x}_k) \geq 1 \\
+                            |t_k - y(\mathbf{x}_k)| & \mathrm{otherwise}
+                        \end{array}
+                    \right.    
+        \]
+        Look deeper into this definition. If $0 < t_k y(\mathbf{x}_k) < 1$, we have $0 < y(\mathbf{x}_k) < 1$ or $-1 < y(\mathbf{x}_k) < 0$. Hence
+        $0 < \xi_k = 1 - t_k y(\mathbf{x}_k) < 1$. If $t_k y(\mathbf{x}_k) = 0$, $\xi_k = 1 - t_k y(\mathbf{x}_k) = 1$. If $t_k y(\mathbf{x}_k) < 0$, $\xi_k = 1 - t_k y(\mathbf{x}_k) > 1$. In summary
+        \[
+            \xi_k \left\{
+                        \begin{array}{ll}
+                            = 0 & \mathrm{if ~} t_k y(\mathbf{x}_k) \in [1,\infty) \\
+                            = 1 - t_k y(\mathbf{x}_k) & 
+                            \left\{
+                                \begin{array}{ll}
+                                    \in (0, 1) & \mathrm{if ~} t_k y(\mathbf{x}_k) \in (0, 1)\\
+                                    = 1 & \mathrm{if ~} t_k y(\mathbf{x}_k) = 0\\
+                                    > 1 & \mathrm{if ~} t_k y(\mathbf{x}_k) \in (-\infty, 0)
+                                \end{array}
+                            \right.
+                        \end{array}
+                    \right.
+        \]
+        
+        Replace the constrain with
+        \[
+            t_k y(\mathbf{x}_k) \geq 1 - \xi_k \mathrm{~for~all~}k
+        \]
+        This is so called \textit{soft margin}.
+
+        When there exist outliers, they'll have extremely large $\xi_k$. To avoid this, here comes the soft SVM that also minimize slack vairable
+        \[
+            \min_{\mathbf{w},b, \mathbf{\xi}} C \sum_{k=1}^N \xi_k + \frac{1}{2} \|\mathbf{w}\|^2 \mathrm{\quad s.t. \quad} t_k y(\mathbf{x}_k) \geq 1 - \xi_k \mathrm{~for~all~}k
+        \]
+        where $C$ is some constant. Briefly speaking, slack vairables relax some points' constarint, their $t_k y(\mathbf{x}_k)$ only needs to larger than some value smaller than $1$. That's why we call this \textit{soft margin}.
+
+        \subsection{Apply KKT Condition}
+            The Lagrangian of soft SVM is
+            \[
+                \mathcal{L}(\mathbf{w},b,\xi,\mathbf{a},\mathbf{\mu}) = \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{k=1}^N \xi_k - \sum_{k=1}^N a_k \{ t_k y(\mathbf{x}_k) - 1 + \xi_k\} - \sum_{k=1}^N \mu_k \xi_k
+            \]
+            where $a_k,\mu_k \geq 0$ , $t_k y(\mathbf{x}_k) - 1 + \xi_k \geq 0$ and note that slack variables are non negative $\xi_k \geq 0$. The KKT conditions are
+            \[
+                \begin{array}{rll}
+                    \mathbf{Dual~Feasibility~} & a_k \geq 0, & \mu_k \geq 0 \\
+                    \mathbf{Primal~Feasibility~} & t_k y(\mathbf{x}_k) - 1 + \xi_k \geq 0, & \xi_k \geq 0 \\
+                    \mathbf{Complmentary~Slackness~} & a_k (t_k y(\mathbf{x}_k) - 1 + \xi_k) = 0, & \mu_k \xi_k = 0
+                \end{array}
+            \]
+            Use $y(\mathbf{x}) = \mathbf{w}^T \phi(\mathbf{x}) + b$ and compute  gradients of $\mathcal{L}$ with respect to $\mathbf{w}$, $b$ and $\xi$
+            \begin{align*}
+                & \nabla_{\mathbf{w}} \mathcal{L} = \mathbf{w} - \sum_{k=1}^N a_k t_k \phi(\mathbf{x}_n) = 0 \\
+                & \nabla_b \mathcal{L} = \sum_{k=1}^N a_k t_k = 0 \\
+                & \nabla_{\xi_k} \mathcal{L} = a_k - C - \mu_k = 0
+            \end{align*}
+            Substitute back and get the dual form
+            \[
+                \max_{\mathbf{a}} \sum_{k=1}^N a_k - \frac{1}{2} \sum_{k=1}^N \sum_{m=1}^N a_k a_m t_k t_m k(x_k, x_m) \mathrm{\quad s.t. \quad} 0 \leq a_k \leq C,~ \forall~k \mathrm{~and~} \sum_{k=1}^N a_k t_k = 0
+            \]
+            It's the same as normal SVM, the only difference is the constraint of $a_k$, which is known as the \textit{box constraint}.
 \end{document}
