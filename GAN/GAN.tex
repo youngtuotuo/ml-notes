@@ -38,9 +38,45 @@
 % cross page equation
 \allowdisplaybreaks
 
-
 \begin{document}
-    \section{GAN}
+    \section*{Goal}
+
+        Say $ X \sim P_{true} $ but $ P_{true} $ unknown. Our goal is to
+        generate more $ X $ like they are generated from $ P_{true} $.
+
+    \section*{Maximum Log Likelihood Approach}
+
+        If $ P_{true} $ can be paremetrized by a parameter set $ \theta $.
+        We can leverage the maximum likelihood to estimate the $ \theta $ that
+        yields the "best fit" probability to the given samples.
+
+        Suppose we have $ N $ real samples $ \{ x_{1}, \dots, x_{N} \} \sim P_{true} $.
+        Suppose they are i.i.d from different Gaussians
+
+        \begin{equation*}
+            f( x_{i}; \mu, \sigma ) = \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{(x_{i} - \mu)^2}{2 \sigma^2}}
+        \end{equation*}
+
+        The log likelihood function is
+
+        \begin{align*}
+             L( \{ x_{i} \}; \mu, \sigma ) &= \ln \prod_{i=1}^N f( x_{i}; \mu, \sigma ) \\
+                             &= \sum_{i = 1}^N \ln f( x_{i}; \mu, \sigma )
+        \end{align*}
+
+        Solve
+
+        \begin{align*}
+              & \max_{\mu, \sigma} \sum_{i = 1}^N \ln f( x_{i}; \mu, \sigma ) \\
+            = & \max_{\mu, \sigma} \sum_{i = 1}^N -\frac{( x_{i} - \mu ) ^ 2}{2
+            \sigma^2} - \ln \sqrt{2 \pi \sigma^2 }
+        \end{align*}
+
+        is the classical approach. However, there's no efficient
+        and simple probability model for larger dimensions.
+
+    \section*{GAN}
+
         Min-Max Problem
 
         \begin{equation*}\label{ce-gan}
@@ -56,7 +92,8 @@
         \end{align*}
             
 
-    \section{WGAN}
+    \section*{WGAN}
+
         For $ G $ fixed, the optimal $ D $ is
 
         \begin{equation*}
