@@ -1,2 +1,3 @@
 # ml-notes
-My notes on machine learning concepts I've learned.
+
+Each folder contains a specific topic. I've tried my best to let them be independently readable.

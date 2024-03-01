@@ -39,19 +39,57 @@
 \allowdisplaybreaks
 
 \begin{document}
-    \section*{Feature Normalization}
-        \begin{equation*}
-            a 
-        \end{equation*}
 
-    \section*{Batch Normalization}
-        \href{https://arxiv.org/abs/1502.03167}{https://arxiv.org/abs/1502.03167}
+    \section*{Batch Normalization\href{https://arxiv.org/abs/1502.03167}{ https://arxiv.org/abs/1502.03167}}
+
+        \subsection*{Training Time}
+
+            Let $ \{ f_{1}, f_{2}, f_{3}, \dots, f_{n} \} $ be the batched feature
+            vector of some layer (a.k.a. that layer's output, either pre-activation
+            or post-activation). Let's say each $ f_{i} \in \mathbb{R}^d $. The
+            Batch Normalization first computes
+
+            \begin{align*}
+                & \tilde{f}_{i} = ( f_{i} - \mu ) / \sigma \\
+                & \mu = \frac{1}{n} \sum_{i = 1}^n f_{i} \\
+                & \sigma = \sqrt{\frac{\sum_{i = 1}^n ( f_{i} - \mu )^2}{n}}
+            \end{align*}
+
+            Second, computes the affine transform
+
+            \begin{align*}
+                 \hat{f}_{i} = \gamma \cdot \tilde{f}_{i} + \beta
+            \end{align*}
+
+            where all arithmetic are element-wise, and $ \gamma, \beta $ are learnable. 
+
+            We'll use each $ \hat{f}_{i} $ as next layer's input. Each new
+            batch features $ \{ \hat{f}_{i} \}_{i = 1}^n $ has mean $ 0 $ and
+            standard deviation $ 1 $.
+
+            We can regard BN as a another layer takes the whole batch as input,
+            with weight $ \gamma $ and bias $ \beta $.
+
+        \subsection*{Testing Time}
+
+            During the testing time, mostly we don't have a bachted data. Hence
+            no on-line $ \mu, \sigma $ to compute. Instead, we use the training
+            data help us get them.
+
+            For each $ i $-th batch, we have $ \mu_{i}, \sigma_{i} $. We can then use
+            Exponential Moving Average to compute the $ \bar{\mu}, \bar{\sigma} $ for testing
+
+            \begin{align*}
+                & \bar{\mu} = \alpha \bar{\mu} + ( 1 - \alpha ) \mu_{i} \\
+                & \bar{\sigma} = \alpha \bar{\sigma} + ( 1 - \alpha ) \sigma_{i}
+            \end{align*}
+
+            where $ \alpha $ is a pre-defined hyper parameter. In pytorch, $
+            \alpha $ is called \textit{momentum} and the default value is $ 0.1 $.
+            
 
     \section*{Batch ReNormalization}
         \href{https://arxiv.org/abs/1702.03275}{https://arxiv.org/abs/1702.03275}
-        \begin{equation*}
-            a 
-        \end{equation*}
 
     \section*{Layer Normalization}
         \href{https://arxiv.org/abs/1607.06450}{https://arxiv.org/abs/1607.06450}
