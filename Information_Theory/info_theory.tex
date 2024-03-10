@@ -169,7 +169,9 @@
 
                 \begin{equation*}
                      \mathcal{L} = -\sum_{i=1}^M p(x_i)\ln p(x_i) +
-                     \lambda\left(\sum_{i=1}^M p(x_i) - 1\right)
+                     \lambda \left(
+                        \sum_{i=1}^M p(x_i) - 1
+                     \right)
                 \end{equation*}
 
                 From $ \partial \mathcal{L} / \partial p(x_i) = - ( \ln p(x_i) + 1) +
@@ -215,8 +217,14 @@
 
             \begin{align*}
                 \operatorname{H}_{\Delta} &= - \sum_i p(x_i) \Delta \ln( p(x_i) \Delta) \\
-                      &= - \sum_i p(x_i) \Delta \ln(p(x_i) \Delta) + \sum_i p(x_i) \Delta \ln \Delta - \sum_i p(x_i) \Delta \ln \Delta \\
-                      &= - \sum_i p(x_i) \Delta \ln \left( \frac{p(x_i) \Delta}{\Delta} \right) - \left( \sum_i p(x_i) \Delta \right) \ln \Delta \\
+                      &= - \sum_i p(x_i) \Delta \ln(p(x_i) \Delta) +
+                             \sum_i p(x_i) \Delta \ln \Delta -
+                             \sum_i p(x_i) \Delta \ln \Delta \\
+                      &= - \sum_i p(x_i) \Delta \ln \left(
+                                \frac{p(x_i) \Delta}{\Delta}
+                            \right) - \left(
+                                \sum_i p(x_i) \Delta
+                            \right) \ln \Delta \\
                       &= - \sum_i p(x_i) \Delta \ln p(x_i) - \ln \Delta
             \end{align*}
 
