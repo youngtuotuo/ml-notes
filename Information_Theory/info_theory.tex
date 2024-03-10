@@ -473,4 +473,51 @@
             \begin{equation*}
                  \operatorname{H}(p) = \frac{1}{2} (1 + \ln(2 \pi \sigma^2))
             \end{equation*}
+
+        \subsection{KL Divergence in Deep Learning}
+
+            Let $ p(\mathbf{x}) $ be an unknown target distribution. We have $
+            N $ training data $ \{ x_{i} \}_{i=1}^{N} $ drawn from it. Let $
+            q(\mathbf{x} | \theta) $ be a neural network tries to approximate $
+            p(\mathbf{x}) $ with the model weight $ \theta $. In theory, the 
+            training process should minimize the KL divergence
+
+            \begin{equation*}
+                 \operatorname{KL}(p \| q) = -\operatorname{E}_{p} \left[ \ln
+                 \frac{q}{p} \right] = - \int p(\mathbf{x}) \ln
+                 \frac{q(\mathbf{x} | \theta)}{p(\mathbf{x})} d \mathbf{x}.
+            \end{equation*}
+            
+            Because $ p(\mathbf{x}) $ is unknown, we can't directly compute the
+            KL divergence. However, we can use sample mean to estimate it
+
+            \begin{equation*}
+                 \operatorname{KL}(p \| q) = -\operatorname{E}_{p} \left[ \ln
+                 \frac{q}{p} \right] \approx -\frac{1}{N} \sum_{i=1}^{N} \ln
+                 \left( \frac{q(\mathbf{x}_{i} | \theta)}{p(\mathbf{x})} \right)
+            \end{equation*}
+
+            During training, $ N $ is fixed, so
+
+            \begin{equation*}
+                 \operatorname{KL}(p \| q) \approx \sum_{i=1}^{N} -\ln
+                 q(\mathbf{x}_{i} | \theta) + \ln p(\mathbf{x}_{i}).
+            \end{equation*}
+
+            $ \ln p(\mathbf{x}) $ is not related to the training, so minimizing
+            $ \sum_{i} -\ln q(\mathbf{x}_{i} | \theta) $ is equivalent to
+            minimizing the KL divergence.
+
+        \subsection{Mutual Information}
+
+           The following KL divergence is called the \textit{Mutual
+           Information} $ \operatorname{I}[\mathbf{x}, \mathbf{y}] $,
+
+           \begin{equation*}
+               \operatorname{I}[\mathbf{x}, \mathbf{y}] =
+               \operatorname{KL}(p(\mathbf{x}, \mathbf{y}) \| p(\mathbf{x})
+               p(\mathbf{y})) = - \iint p(\mathbf{x} \mathbf{y}) \ln  \left(
+                   \frac{p(\mathbf{x}) p(\mathbf{y})}{p(\mathbf{x}, \mathbf{y})}
+               \right) d \mathbf{x}
+           \end{equation*}
 \end{document}
