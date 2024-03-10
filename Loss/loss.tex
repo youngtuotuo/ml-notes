@@ -39,9 +39,9 @@
 \allowdisplaybreaks
 
 \begin{document}
-    \section*{Calssification Loss Functions}
+    \section{Loss Functions}
 
-        \subsection*{Hinge Loss}
+        \subsection{Hinge Loss}
 
             Let $ g(x) $ be a classifier that defined by a score function $ f(x) $
 
@@ -68,18 +68,46 @@
             When $ f(x_n) \in (-1, 1) $, we have $ \hat{y}_n f(x_n)\in [0, 1) $.
             Hence $ l\big( g(x_n), \hat{y}_n \big) = 1 - \hat{y}_n f(x_n) $.
 
-        \subsection*{Cross Entropy}
+        \subsection{Cross Entropy}
 
-            Let $ p(x) $ be an unknown distribution and we use $ q(x) $ to esitmate
-            it. The cross entropy of $ q(x) $ relative to $ p(x) $ is
+            The cross entropy of the distribution $ q(x) $ relative to a
+            distribution $ p(x) $ is
 
             \begin{equation*}
                 H(p,q) = -\mathrm{E}_p[\ln q] = - \sum_x p(x) \ln q(x) 
             \end{equation*}
 
-    \section*{Regression Loss Functions}
+            In deep learning, $ p(x) $ refers to the ground truth label, $ q(x) $
+            refers to the output from a deep neural network model. In information theory,
+            minimize cross entropy means
 
-        \subsection*{\texorpdfstring{$L^p$}{Lp} Norm}
+            \textit{Let the amount of the information carried by} $ q(x) $ \textit{refers to} $ p(x) $.
+            
+            \subsubsection{Binary Class}
+                $ p(x) \in \{0, 1\} $, $ q(x) \in [0, 1] $
+
+                 \begin{equation*}
+                      H(p, q) = -\sum_{x} p(x) \ln q(x) + ( 1 - p(x) ) \ln ( 1 - q(x) )
+                 \end{equation*}
+
+            \subsubsection{Multi Class}
+
+                There are several ways to formulate. They are all equivalent.
+
+                - One-Hot Ground Truth:
+
+                $ p(x) \in \mathbb{R}^C $, $ p_{i}(x) \in \{0, 1\} $, $ \sum_{i=1}^C p_{i}(x) = 1 $, $ q(x)
+                \in \mathbb{R}^C $, each $ q_{i} \in [0, 1] $, $ \forall i=1, \dots, C $
+
+                 \begin{align*}
+                      H(p, q) &= -\sum_{x} \sum_{i=1}^C p_{i}(x)\ln q_{i}(x) + ( 1 - p_{i}(x)) \ln ( 1 - q_{i}(x) )
+                 \end{align*}
+
+                - Raw Class Number Ground Truth:
+
+
+
+        \subsection{\texorpdfstring{$L^p$}{Lp} Norm}
 
             Let $\boldsymbol{y}(\boldsymbol{w},\boldsymbol{b}): \mathbb{R}^n
             \rightarrow \mathbb{R}^m$ be a model defined by $\boldsymbol{w}$
@@ -109,7 +137,7 @@
                 |y_k(\boldsymbol{w},\boldsymbol{b}) - \hat{y}_k| 
             \end{equation*}
 
-        \subsection*{Mean Absolute Error(\texorpdfstring{$L^1$}{L1} Loss)}
+        \subsection{Mean Absolute Error(\texorpdfstring{$L^1$}{L1} Loss)}
 
             Suppose there are $N$ instances $\{ \boldsymbol{x}_i \}_{i=1}^N$. The MAE is defined by
 
@@ -119,7 +147,7 @@
                 \hat{\boldsymbol{y}^n} \|_1}{N}
             \end{equation*}
 
-        \subsection*{Mean Square Error(\texorpdfstring{$L^2$}{L2} Loss)}
+        \subsection{Mean Square Error(\texorpdfstring{$L^2$}{L2} Loss)}
 
             Suppose there are $N$ instances $\{ \boldsymbol{x}_i \}_{i=1}^N$. The MSE is defined by
 
