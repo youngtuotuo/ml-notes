@@ -59,13 +59,13 @@
 
             \begin{align}
                 &h(x,y) = h(x) + h(y) \label{eq:1} \\
-                &p(x,y) = p(x) p(y) \label{eq:2}
+                &p(x,y) = p(x) p(y)   \label{eq:2}
             \end{align}
 
-            Note that we can interpret $ h( p(x) ) $ as $ h( x ) $ and
+            Note that we can interpret $ h( p(x) ) $ as $ h(x) $ and
             interpret $ h( p(x, y) ) $ as $ h(x, y) $. 
 
-            $ \log_{2}( x ) $ is a monotonic function that satisfied both
+            $ \log_{2}(x) $ is a monotonic function that satisfied both
             (\ref{eq:1}) and (\ref{eq:2}), hence we can define
 
             \begin{equation*}
@@ -105,11 +105,12 @@
             
             \subsubsection{Nats}
 
-                In practice, we use $ \ln p(x)$ instead of $\log_2 p(x) $. That is,
+                In practice, we use $ \ln p(x)$ instead of $\log_2 p(x) $. That
+                is,
 
                 \begin{align*}
-                    &h(x)=-\ln p(x)\\
-                    &\operatorname{H}(p) = -\sum_{x \in X} p(x) \ln p(x)
+                    &h(x)                = - \ln p(x) \\
+                    &\operatorname{H}(p) = - \sum_{x \in X} p(x) \ln p(x)
                 \end{align*}
 
                 In this situation, we said the information is measured in the
@@ -127,11 +128,12 @@
             \subsubsection{Noiseless Coding Theorem}
 
                 \begin{displayquote}
-                     $ N $ i.i.d. random variables each with entropy $ \operatorname{H}(X) $
-                     can be compressed into more than $ N \operatorname{H}(X) $ bits with
-                     negligible risk of information loss, as $ N \rightarrow
-                     \infty $; but conversely, if they are compressed into
-                     fewer than $ N \operatorname{H}(X) $ bits it is virtually certain that
+                     $ N $ i.i.d. random variables each with entropy $
+                     \operatorname{H}(X) $ can be compressed into more than $ N
+                     \operatorname{H}(X) $ bits with negligible risk of
+                     information loss, as $ N \rightarrow \infty $; but
+                     conversely, if they are compressed into fewer than $ N
+                     \operatorname{H}(X) $ bits it is virtually certain that
                      information will be lost.
                 \end{displayquote}
 
@@ -152,11 +154,14 @@
 
             \subsubsection*{Proof}
             
-                Let $ X = \{x_i\}_{ i=1 }^M $ be a discrete random variable and let $ p $
-                be the distribution of $ X $. For the optimization problem
+                Let $ X = \{x_i\}_{ i=1 }^M $ be a discrete random variable and
+                let $ p $ be the distribution of $ X $. For the optimization
+                problem
 
                 \begin{equation*}
-                     \max \left( - \sum_{i=1}^M p(x_i) \ln p(x_i) \right)
+                     \max \left(
+                        - \sum_{i=1}^M p(x_i) \ln p(x_i)
+                    \right)
                 \end{equation*}
 
                 with the normalization constraint on the probabilities
@@ -168,20 +173,20 @@
                 The Lagrangian is
 
                 \begin{equation*}
-                     \mathcal{L} = -\sum_{i=1}^M p(x_i)\ln p(x_i) +
-                     \lambda \left(
-                        \sum_{i=1}^M p(x_i) - 1
-                     \right)
+                     \mathcal{L} = - \sum_{i=1}^M p(x_i) \ln p(x_i) +
+                         \lambda \left(
+                            \sum_{i=1}^M p(x_i) - 1
+                         \right)
                 \end{equation*}
 
-                From $ \partial \mathcal{L} / \partial p(x_i) = - ( \ln p(x_i) + 1) +
+                From $ \partial \mathcal{L} / \partial p(x_i) = - (\ln p(x_i) + 1) +
                 \lambda = 0 $, we have $ \lambda = \ln p(x_i) + 1 $,
                 $ \forall i = 1, \dots, M $. By $ \sum_{i=1}^M p(x_{i}) = 1 $ and $
                 \lambda = \ln p(x_i) + 1 $, it's easy to get $ \lambda = \ln(1 / M)
                 + 1 $, we then have 
 
                 \begin{equation*}
-                     p(x_i) = \frac{1}{M},\forall i
+                     p(x_i) = \frac{1}{M}, \forall i
                 \end{equation*}
 
                 is the stationary point.
@@ -189,42 +194,44 @@
                 To verify the maximum, first compute the Hessian matrix
 
                 \begin{equation*}
-                     \frac{\partial \mathcal{L}}{\partial p(x_{i}) \partial
-                     p(x_{j})} = - I_{ij} \frac{1}{p(x_i)}
+                     \frac{ \partial \mathcal{L} }{ \partial p(x_{i}) \partial
+                     p(x_{j}) } = - I_{ij} \frac{1}{p(x_i)}
                 \end{equation*}
 
                 It's obvious that all the eigenvalues are negative (negative
                 definite). So $ p(x_{i}) = \frac{1}{M} $ actually attains a
-                maximum, and the maximum entropy is $ \operatorname{H}(p) = \ln M $.
+                maximum, and the maximum entropy is $ \operatorname{H}(p) = \ln
+                M $.
 
             
 
             
         \subsection{Differential Entropy}
 
-            Let $ X \subseteq \mathbb{R} $ be a continuous random variable and $ p(x) $ be the
-            distribution of $ X $. By M.V.T, we know there exists some $ x_i $
-            such that
+            Let $ X \subseteq \mathbb{R} $ be a continuous random variable and
+            $ p(x) $ be the distribution of $ X $. By M.V.T, we know there
+            exists some $ x_{i} $ such that
 
             \begin{equation*}
-                 \int_{i \Delta}^{ (i+1)\Delta }p(x) dx = p(x_i) \Delta
+                 \int_{i \Delta}^{ (i+1) \Delta } p(x) dx = p(x_{i}) \Delta
             \end{equation*}
 
             where $ \Delta $ is the length of one partition of $ X $. Now for any
-            $ x \in [i \Delta, (i + 1) \Delta]$, we can use $ p(x_i) \Delta $ to estimate
+            $ x \in [i \Delta, (i + 1) \Delta] $, we can use $ p(x_i) \Delta $ to estimate
             its probability as long as $ \Delta $ small enough. Here comes an
             entropy estimation
 
             \begin{align*}
-                \operatorname{H}_{\Delta} &= - \sum_i p(x_i) \Delta \ln( p(x_i) \Delta) \\
+                \operatorname{H}_{\Delta}
+                      &= - \sum_i p(x_i) \Delta \ln( p(x_i) \Delta) \\
                       &= - \sum_i p(x_i) \Delta \ln(p(x_i) \Delta) +
                              \sum_i p(x_i) \Delta \ln \Delta -
-                             \sum_i p(x_i) \Delta \ln \Delta \\
+                                 \sum_i p(x_i) \Delta \ln \Delta    \\
                       &= - \sum_i p(x_i) \Delta \ln \left(
                                 \frac{p(x_i) \Delta}{\Delta}
                             \right) - \left(
                                 \sum_i p(x_i) \Delta
-                            \right) \ln \Delta \\
+                            \right) \ln \Delta                      \\
                       &= - \sum_i p(x_i) \Delta \ln p(x_i) - \ln \Delta
             \end{align*}
 
@@ -242,7 +249,7 @@
             The difference term $ \ln \Delta $ shows the fact that we need lots of bits to
             describe a continuous variable.
 
-            The differential entropy can have negative values when $ \sigma^2 < (1 / 2 \pi e) $.
+            The differential entropy can have negative values when $ \sigma^2 < 1 / (2 \pi e) $.
 
             For multi dimension random variable, the differential entropy is similar
 
@@ -255,11 +262,13 @@
             Given a joint probability $ p(\mathbf{x}, \mathbf{y}) $. When $
             \mathbf{x} $ is known, the additional information needed to specify
             the corresponding value of $ \mathbf{y} $ is given by $ - \ln
-            p(\mathbf{y} | \mathbf{x}) $. We can compute the \textit{conditional entropy}
+            p(\mathbf{y} | \mathbf{x}) $. We can compute the
+            \textit{conditional entropy}
 
             \begin{equation*}
                 \operatorname{H}(\mathbf{y} | \mathbf{x}) = 
-                 - \iint p(\mathbf{x}, \mathbf{y}) \ln p( \mathbf{y} | \mathbf{x} ) d \mathbf{y} d \mathbf{x}
+                 - \iint p(\mathbf{x}, \mathbf{y})
+                    \ln p( \mathbf{y} | \mathbf{x} ) d \mathbf{y} d \mathbf{x}
             \end{equation*}
 
             Note that
@@ -267,15 +276,15 @@
             \begin{align*}
                 \operatorname{H}(\mathbf{x}, \mathbf{y})
                       &= - \iint p(\mathbf{x}, \mathbf{y})
-                         \ln p(\mathbf{x}, \mathbf{y}) d \mathbf{x} d \mathbf{y} \\
+                         \ln p(\mathbf{x}, \mathbf{y}) d \mathbf{x} d \mathbf{y}                    \\
                       &= - \iint p(\mathbf{x}, \mathbf{y}) 
-                         \ln ( p(\mathbf{y} | \mathbf{x}) p(\mathbf{x})) d \mathbf{x} d \mathbf{y} \\
-                      &= - \iint p(\mathbf{x}, \mathbf{y}) \ln p(\mathbf{y} | \mathbf{x}) d \mathbf{x}
-                          d \mathbf{y} - \iint p(\mathbf{x}, \mathbf{y}) \ln p(\mathbf{x}) d \mathbf{x}
-                          d \mathbf{y} \\
+                         \ln ( p(\mathbf{y} | \mathbf{x}) p(\mathbf{x})) d \mathbf{x} d \mathbf{y}  \\
+                      &= - \iint p(\mathbf{x}, \mathbf{y}) \ln p(\mathbf{y} | \mathbf{x})
+                        d \mathbf{x} d \mathbf{y} -
+                        \iint p(\mathbf{x}, \mathbf{y}) \ln p(\mathbf{x}) d \mathbf{x} d \mathbf{y} \\
                       &= - \iint p(\mathbf{x}, \mathbf{y}) \ln p(\mathbf{y} | \mathbf{x}) d \mathbf{x}
                           d \mathbf{y} - \int \left( \int p(\mathbf{x}, \mathbf{y}) d \mathbf{y} \right)
-                          \ln p(\mathbf{x}) d \mathbf{x} \\
+                          \ln p(\mathbf{x}) d \mathbf{x}                                            \\
                       &= \operatorname{H} (\mathbf{y} | \mathbf{x}) + \operatorname{H} (\mathbf{x})
             \end{align*}
 
@@ -305,17 +314,16 @@
             approximate it. This will cause additional amount of information
 
             \begin{align*}
-                \operatorname{KL}(p \| q) &= \left(
-                        -\int p(\mathbf{x}) \ln
-                        q(\mathbf{x}) d \mathbf{x}
-                    \right) - \left(
-                        -\int p(\mathbf{x}) \ln
-                        p(\mathbf{x}) d \mathbf{x}
-                    \right) \\
-                                 &= -\int p(\mathbf{x}) \ln
-                    \left\{
-                        \frac{ q(\mathbf{x}) }{ p(\mathbf{x}) }
-                    \right\} d \mathbf{x}
+                \operatorname{KL}(p \| q)
+                    &= \left(
+                            - \int p(\mathbf{x}) \ln q(\mathbf{x}) d \mathbf{x}
+                        \right) - \left(
+                            - \int p(\mathbf{x}) \ln p(\mathbf{x}) d \mathbf{x}
+                        \right)                          \\
+                    &= -\int p(\mathbf{x}) \ln
+                        \left\{
+                            \frac{ q(\mathbf{x}) }{ p(\mathbf{x}) }
+                        \right\} d \mathbf{x}
             \end{align*}
 
             This is known as the \textit{KL divergence} from $ q $ to $ p $.
@@ -369,8 +377,10 @@
                 \begin{align*}
                     \operatorname{KL}(p \| q)
                         &= - \int p(\mathbf{x}) \ln
-                     \frac{q(\mathbf{x})}{p(\mathbf{x})} d \mathbf{x} \\
-                        &\geq - \ln \left( \int p(\mathbf{x}) \frac{q(\mathbf{x})}{p(\mathbf{x})} d \mathbf{x} \right) \\
+                             \frac{q(\mathbf{x})}{p(\mathbf{x})} d \mathbf{x} \\
+                        &\geq - \ln \left(
+                            \int p(\mathbf{x}) \frac{q(\mathbf{x})}{p(\mathbf{x})} d \mathbf{x}
+                        \right)                                               \\
                         &=    - \ln \left( \int q(\mathbf{x}) d \mathbf{x} \right) = 0
                 \end{align*}
 
@@ -378,8 +388,8 @@
 
                 \begin{align*}
                                 & p(\mathbf{x}) \ln \frac{q(\mathbf{x})}{p(\mathbf{x})} = 0 \\
-                    \Rightarrow & \ln \frac{q(\mathbf{x})}{p(\mathbf{x})} = 0 \\
-                    \Rightarrow & \frac{q(\mathbf{x})}{p(\mathbf{x})} = 1 \\
+                    \Rightarrow & \ln \frac{q(\mathbf{x})}{p(\mathbf{x})} = 0               \\
+                    \Rightarrow & \frac{q(\mathbf{x})}{p(\mathbf{x})} = 1                   \\
                     \Rightarrow & q(\mathbf{x}) = p(\mathbf{x})
                 \end{align*}
 
@@ -394,7 +404,7 @@
             with three natural constraints
 
             \begin{align*}
-                &\int_{-\infty}^\infty p(x) dx = 1 \\
+                &\int_{-\infty}^\infty p(x) dx = 1     \\
                 &\int_{-\infty}^\infty x p(x) dx = \mu \\
                 &\int_{-\infty}^\infty (x-\mu)^2 p(x) dx = \sigma^2
             \end{align*}
@@ -451,14 +461,14 @@
             \begin{align*}
                 & \operatorname{KL}(f \| p) = -\int f(x) \ln \left( \frac{p(x)}{f(x)} \right) dx \\
                 =& -\operatorname{H}(f) - \int f(x) \ln \left(
-                     \frac{1}{ (2 \pi
-                     \sigma^2)^{\frac{1}{2}} } e^{
-                 -\frac{(x - \mu)^2}{2 \sigma^2} } 
-                \right) dx \\
+                         \frac{1}{ (2 \pi \sigma^2)^{\frac{1}{2}} }
+                         e^{ -\frac{(x - \mu)^2}{2 \sigma^2} } 
+                    \right) dx                                                                   \\
                 =& -\operatorname{H}(f) + \frac{1}{2} \ln (2 \pi \sigma^{2}) +
-                \frac{1}{2 \sigma^{2}} \int f(x) (x - \mu)^{2} dx \\
-                =& -\operatorname{H}(f) + \frac{1}{2} \ln (2 \pi \sigma^{2}) + \frac{\sigma^{2}}{2 \sigma^{2}} \\
-                =& -\operatorname{H}(f) + \frac{1}{2} \ln (2 \pi \sigma^{2}) + \frac{1}{2} \\
+                    \frac{1}{2 \sigma^{2}} \int f(x) (x - \mu)^{2} dx                            \\
+                =& -\operatorname{H}(f) + \frac{1}{2} \ln (2 \pi \sigma^{2}) +
+                    \frac{\sigma^{2}}{2 \sigma^{2}}                                              \\
+                =& -\operatorname{H}(f) + \frac{1}{2} \ln (2 \pi \sigma^{2}) + \frac{1}{2}       \\
                 =& -\operatorname{H}(f) + \operatorname{H}(p) \geq 0
             \end{align*}
 
