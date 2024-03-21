@@ -45,7 +45,7 @@
         Say $ X \sim P_{true} $ but $ P_{true} $ unknown. Our goal is to
         leverage $ X $ to generate more samples like they are also generated
         from $ P_{true} $.
-        
+
         In reality, $ X $ can be tons of images, tons of text, tons of paragraph,
         or tons of videos, etc.
 
@@ -95,7 +95,7 @@
             & E[ \ln D(X) ] = \frac{1}{N}\sum_{ i = 1 }^N \ln D(x_i) \\
             & E[ 1 - \ln D(G(Z)) ] = \frac{1}{N}\sum_{ i = 1 }^M \ln D(G(z_i))
         \end{align*}
-            
+
 
     \section*{WGAN}
 
@@ -136,7 +136,5 @@
         \begin{equation}
             \| D(x) - D(y) \| \leq \| x - y \|
         \end{equation}
-        
-    
 \end{document}
 

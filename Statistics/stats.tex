@@ -6,7 +6,7 @@
 \usepackage{listings}
 %content include references
 \usepackage[nottoc,numbib]{tocbibind}
-% table of contents clickabel
+% table of contents clickable
 \usepackage{hyperref}
 % make file system neat and easier to manage
 \usepackage{subfiles}
@@ -38,118 +38,237 @@
 % cross page equation
 \allowdisplaybreaks
 
-\begin{document}
-    \section{Basic Statistic Notions}
-        \subsection{Expected Value \texorpdfstring{$E[X]=\mu$}{}}
-            \[
-                E[X]=\left\{\begin{array}{ll}
-                        \sum x_ip_i& \mathrm{if~discrete} \\[0.2cm]
-                        \int_{\mathbb{R}}xf(x)dx & \mathrm{if~continuous}
-                \end{array}\right.
-            \]
-        \subsection{Variance \texorpdfstring{$var[X]=\sigma_X^2$}{}}
-            \[
-                var[X]=\left\{\begin{array}{ll}
-                        \sum (x_i-\mu)^2p_i& \mathrm{if~discrete} \\[0.2cm]
-                        \int_{\mathbb{R}}(x-\mu)^2f(x)dx & \mathrm{if~continuous}
-                \end{array}\right.
-            \]
-            If $X$ is continuous, $var[X]=E[(X-E[X])^2]=E[X^2] - E[X]^2$.
-        \subsection{Standard Deviation \texorpdfstring{$\sigma_X$}{}}
-            \[
-                \sigma_X=\left\{\begin{array}{ll}
-                        \sqrt{\sum(x_i-\mu)^2p_i}& \mathrm{if~discrete} \\[0.2cm]
-                        \sqrt{\int_{\mathbb{R}}(x-\mu)^2f(x)dx} & \mathrm{if~continuous}
-                \end{array}\right.
-            \]
-            Note that $\sigma_X=\sqrt{var[X]}$. If $X$ is discrete and each $p_i=\frac{1}{N}$, $\sigma_X=\sqrt{\frac{\sum(x_i-\mu)^2}{N}}$.
-        \subsection{Covariance \texorpdfstring{$cov[X,Y]$}{}}
-            \subsubsection{Two Variables}
-                $X,Y$ are random variables with space $\mathbb{R}$.
-                \[
-                cov[X,Y]=\left\{\begin{array}{ll}
-                        \sum p_i(x_i-\mu_X)(y_i-\mu_Y)& \mathrm{if~discrete} \\[0.2cm]
-                        \int_{\mathbb{R}\times\mathbb{R}}(x-\mu_X)(y-\mu_Y)f(x,y) & \mathrm{if~continuous}
-                \end{array}\right.
-                \]
-                Note that $cov[X,X]=var[X]$ and covariance matrix
-                $
-                    \Sigma = \begin{pmatrix}
-                        cov[X,X] & cov[X,Y]\\
-                        cov[Y,X] & cov[Y,Y]
-                    \end{pmatrix}
-                $
-            \subsubsection{More Variables}
-                $X_1,X_2,\dots,X_n$ are random variables with space $\mathbb{R}$.\\
-                The covariance matrix $\Sigma$ is
-                \[
-                    \Sigma = \begin{pmatrix}
-                        cov[X_1,X_1] & cov[X_1,X_2] & \cdots & cov[X_1,X_n]\\
-                        cov[X_2,X_1] & cov[X_2,X_2] & \cdots & cov[X_2,X_n]\\
-                        \vdots & \vdots & \ddots & \vdots\\
-                        cov[X_n,X_1] & cov[X_n,X_2] & \cdots & cov[X_n,X_n]
-                    \end{pmatrix}
-                \]
-                Or let $X=(X_1,X_2,\dots,X_n)$, $\Sigma=cov[X,X]=E[(X-E[X])(X-E[X])^T]$.
-                
-        \subsection{Correlation \texorpdfstring{$corr[X,Y]=\rho_{X,Y}$}{}}
-            $corr[X,Y]=\frac{cov[X,Y]}{\sigma_X \sigma_Y}\in[-1,1]$.
-        \subsection{Assume sample come from one distribution}
-            \subsubsection{Gaussian Distribution}
-                \[
-                    f_{\mu,\Sigma}(x)=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}e^{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)}
-                \]
-                where $x$ vector, $D$ for dimension, $\mu$ mean vector, $\Sigma$ covariance matrix.\\
-                An unknown $f_{\mu,\Sigma}(x)$ samples $n$ points $x_1,\dots,x_n$. The likelihood function
-                \[
-                    L(\mu,\Sigma)=f_{\mu,\Sigma}(x_1)f_{\mu,\Sigma}(x_2)\cdots f_{\mu,\Sigma}(x_n)
-                \]
-                Higher value of the likelihood function means higher probability to sample $x_1,\dots,x_n$. The maximum likelihood estimator $(\mu^*,\Sigma^*)$ is
-                \[
-                    \mu^*,\Sigma^* = \argmax_{\mu,\Sigma} L(\mu,\Sigma)
-                \]
-                Also, for $l(\mu,\Sigma)=\ln L(\mu,\Sigma)$,
-                \[
-                    \mu^*,\Sigma^* = \argmax_{\mu,\Sigma} l(\mu,\Sigma)
-                \]
-                Then Gaussian distribution
-                \[\mu^* = \frac{1}{n}\sum_1^n x_i,\quad \Sigma^* = \frac{1}{n}\sum_1^n(x_i-\mu^*)(x_i-\mu^*)^T\]
-    
-        \subsection{Two Classes \texorpdfstring{$C_1,C_2$}{}}
-            $C_1$ has $\{x_i\}_1^{70}$, $C_2$ has $\{x_i\}_{71
-            }^{180}$. The posterior probability of an unknown object $x$ is
-            \[
-                P(C_1|x) = \frac{P(x|C_1)P(C_1)}{P(x|C_1)P(C_1)+P(x|C_2)P(C_2)}
-            \]
-            The terms $P(C_k)$ are easy to get. The terms $P(x|C_k)$ is based on the distribution we assumed. If it's Gaussian,
-            \[
-                P(x|C_1) = f_{\mu_1^*,\Sigma_1^*}(x),\quad P(x|C_2) = f_{\mu_2^*,\Sigma_2^*}(x)
-            \]
-            We can modify $\Sigma^*$ by
-            \[
-                \Sigma^* = \frac{70}{70+110}\Sigma_1^* + \frac{110}{70+110}\Sigma_2^*
-            \]
-            And let $C_1,C_2$ share this $\Sigma^*$, the likelihood function becomes
-            \[
-                L(\mu_1,\mu_2,\Sigma) = f_{\mu_1,\Sigma}(x_1)\cdots f_{\mu_1,\Sigma}(x_{70})f_{\mu_2,\Sigma}(x_{71})\cdots f_{\mu_2,\Sigma}(x_{180})
-            \]
-            $\mu_1^*,\mu_2^*,\Sigma^*$ are maximum likelihood estimators.
-            The new model will be a linear classifier. Explain in the following.
+% TODO: Add references latter
+% http://users.stat.umn.edu/~helwig/notes/RandomVariables.pdf
 
-            Let $z=\ln \frac{P(x|C_1)P(C_1)}{P(x|C_2)P(C_2)}$. Then
-            \[
-                P(C_1|x)=\frac{1}{1+e^{-z}}=\sigma(z),\quad\mathrm{the~sigmoid~function}.
-            \]
-            $P(x|C_k)=f_{\mu_k^*,\Sigma^*}(x)$, $k=1,2$. So
-            \[
-                z=\ln\frac{f_{\mu_1^*,\Sigma^*}(x)}{f_{\mu_2^*,\Sigma^*}(x)}+\ln\frac{P(C_1)}{P(C_2)}
-            \]
-            Put the details in and compute, we get
-            \[
-                z = (\mu_1^*-\mu_2^*)^T\Sigma^{*-1}x-\frac{1}{2}(\mu_1^*)^T\Sigma^{*-1}\mu_1^*+\frac{1}{2}(\mu_2^*)^T\Sigma^{*-1}\mu_2^*+\ln\frac{P(C_1)}{P(C_2)}
-            \]
-            Let $w^T=(\mu_1^*-\mu_2^*)^T\Sigma^{*-1}$, $b=-\frac{1}{2}(\mu_1^*)^T\Sigma^{*-1}\mu_1^*+\frac{1}{2}(\mu_2^*)^T\Sigma^{*-1}\mu_2^*+\ln\frac{P(C_1)}{P(C_2)}$. Then
-            \[
-                P(C_k|x)=\sigma(w \cdot x+b)
-            \]
+\begin{document}
+
+    \section*{Random Variable}
+
+        A \textit{random variable} is a function that maps the outcome of a
+        random experiment to a real number. We use $ \mathcal{C} $ to
+        denote the set of all outcomes; $ c $ to denote a single outcome.
+
+        For example, let $ C =  \{ \text{GPT}, \text{GAN}, \text{BERT},
+        \text{YOLO} \} $, then a random varialbe $ X $ can be
+        \begin{equation*}
+             X(\text{GPT}) = 0, X(\text{GAN}) = 1, X(\text{BERT}) = 2,
+             X(\text{YOLO}) = 3.
+        \end{equation*}
+
+        You can change to any number you want.
+
+        We cannot observe a random variable itself, i.e., the mapping $ X $
+        is unobservable. We can only define the mapping, and then observe
+        the result of applying this mapping to an experiment outcome.
+
+        The \textit{realization} of a random variable is the result of
+        applying the random variable (i.e., mapping) to an observed outcome
+        of a random experiment. This is what we actually observe.
+
+        Typically, we use lowercase to denote the realized number;
+        uppercase to denote the random variable. e.g., $ x $ is a
+        realization of $ X $.
+
+        \subsection*{Probability Mass Function}
+
+            A random variable $ X $ is said to be \textit{descrete} if its
+            space $ \mathcal{D} $ is either finite or countable.
+
+            Let $ X $ be a discrete random variable with space $ \mathcal{D} $.
+            The \textit{probability mass function} of $ X $, $ p_{X}(d_{i}) $,
+            is defined by
+
+            \begin{equation*}
+                p_{X}(d_{i}) = P[\{ c: X(c) = d_{i} \}] = P[ X = d_{i} ],
+            \end{equation*}
+
+            for all $ d_{i} \in \mathcal{D} $.
+
+            The induced probability distribution, $ P_{X}(\cdot) $, of $ X $ is
+
+            \begin{equation*}
+                P_{X}(D) = \sum_{ d_{i} \in D} p_{X}(d_{i}) = \sum_{ d_{i} \in
+                D} P[\{ c: X(c) = d_{i} \}] = \sum_{d_{i} \in D} P[ X = d_{i}],
+                \text{ } D \subset \mathcal{D}
+            \end{equation*}
+
+            Note that the notation $ P[ X = d_{i}] $ is an abbreviation, since
+            the outcome $ c $ is not actually important here.
+
+        \subsection*{Cumulative Distribution Function}
+
+            The \textit{cumulative distribution function}, $ F_{X}(x) $, of $ X
+            $ is defined by
+
+            \begin{equation*}
+                F_{X}(x) = P_{X}((-\infty, x]) = P[\{ c: X(c) \leq x \}] = P (
+                { X \leq x } ).
+            \end{equation*}
+
+        \subsection*{Probability Density Function}
+
+            A random variable $ X $ is said to be \textit{continuous} if
+            its cdf $ F_{X}(x) $ is continuous for all $ x \in \mathbb{R} $.
+
+            Let $ X $ be a continuous random variable with interval $
+            \mathcal{D} \subset \mathbb{R} $ as space. The \textit{probability
+            density function} of $ X $, $ f_{X}(x) $, is a function that
+            satisfies
+
+            \begin{equation*}
+                F_{X}(x) = P(X \leq x) = \int_{-\infty}^{x} f_{X}(t) dt.
+            \end{equation*}
+
+            When there exits such a function $ f_{X}(x) $, $ X $ is also called an
+            \textit{absolutely continuous} random variable.
+
+            If $ f_{X}(x) $ is also continuous, we have
+
+            \begin{equation*}
+                 \frac{d}{dx} F_{X}(x) = f_{X}(x)
+            \end{equation*}
+
+            by the Fundamental Theorem of Calculus. Note that for any continuous
+            random variable $ X $, there are no points of discrete mass, hence
+
+            \begin{equation*}
+                 P(X = x) = 0,
+            \end{equation*}
+
+            for all $ x \in \mathbb{R} $.
+
+            From this, we can also infer that
+
+            \begin{equation*}
+                 P ( a < X \leq b ) = P ( a \leq X \leq b) = P ( a \leq X < b)
+                     = P ( a < X < b)
+            \end{equation*}
+
+
+        \subsection*{Expectation}
+
+            The \textit{expectation} of $ X $ is defined by
+
+            \begin{equation}
+                E[X]=\left\{
+                    \begin{array}{ll}
+                        \sum x_i p(x_{i}) & \text{if } X \text{ is discrete with pmf } p(x) \text{, and }
+                            \sum |x| p(x) < \infty \\
+                        \int x f(x) dx & \text{if } X \text{ is continuous with pdf } f(x) \text{, and }
+                            \int |x| f(x) dx < \infty
+                    \end{array}
+                \right.
+            \end{equation}
+
+            Expectation is also called \textit{mean}, or \textit{expected value},
+            and mostly denoted by $ \mu $.
+
+            The expection can reflect the transformation of random variable. Let $ Y = g(X) $, then
+
+            \begin{align*}
+                E(Y) = E ( g(X) ) &= \sum g(x) p(x) \\
+                E(Y) = E ( g(X) ) &= \int g(x) f(x) dx
+            \end{align*}
+
+            The expection is linear with respect to random variable,
+
+            \begin{equation*}
+                E [ k_{1} g_{1}(X) + k_{2} g_{2}(X) ] = k_{1} E [ g_{1}(X) ] + k_{2} E [ g_{2}(X) ]
+            \end{equation*}
+
+        \subsection*{Variance and Standard Deviation}
+
+            Let $ X $ be a random variable with finite mean $ \mu $ and $ E [ (X -
+            \mu)^{2} ] $ is also finite. The variance of $ X $ is defined by
+
+            \begin{equation}
+                var[ X ] = E [ (X - \mu)^{2} ]
+            \end{equation}
+
+            Variance is mostly denoted by $ \sigma^{2} $. The single $ \sigma $ is
+            called the \textit{standard deviation}. The number $ \sigma $ is sometimes
+            interpreted as a measure of the dispersion of the points of the space
+            relative to the mean value $ \mu $.
+
+            Note that
+
+            \begin{align*}
+                \sigma^2 &= E [ ( X - \mu )^{2} ] = E ( X^2 - 2 X \mu + \mu^{2} ) \\
+                         &= E [ X^{2} ] - 2 \mu^{2} + \mu^{2} \\
+                         &= E [ X^{2} ] - \mu^{2}
+            \end{align*}
+
+    \section*{Random Vector}
+
+        Consider two random variables $ X_{1} $ and $ X_{2} $ on the same
+        sample space $ \mathcal{C} $, that they assign each element $ c $ of $
+        \mathcal{C} $ one and only one ordered pair of numbers $ X_{1}(c) =
+        x_{1} $ , $ X_{2}(c) = x_{2} $. Then we say that $ (X_{1}, X_{2}) $ is
+        a random vector. The \textit{space} of $ (X_{1}, X_{2}) $ is the set
+        of ordered pairs $ \mathcal{D} =  \{ (x_{1}, x_{2}) : x_{1} = X_{1}(c),
+        x_{2} = X_{2}(c), c \in \mathcal{C} \} $.
+
+        \subsection*{Probability Mass Function}
+
+            A discrete random vector $ (X_{1}, X_{2}) $ with finite or
+            countable space $ \mathcal{D} $. The \textit{joint probability mass
+            function} of $ (X_{1}, X_{2})$, $ p_{X_{1}, X_{2}}(x_{1}, x_{2}) $,
+            is defined by
+
+            \begin{equation*}
+                p_{ X_{1}, X_{2}} (x_{1}, x_{2}) = P [ X_{1} = x_{1}, X_{2} = x_{2} ]
+            \end{equation*}
+
+            for all $ (x_{1}, x_{2}) \in \mathcal{D} $.
+
+        \subsection*{Cumulative Distribution Function}
+
+            The cumulative distribution function of $ (X_{1}, X_{2}) $, $ F_{X_{1}, X_{2}} (x_{1},
+            x_{2}) $, is defined by
+
+            \begin{equation*}
+                  F_{X_{1}, X_{2}} (x_{1}, x_{2}) = P [  \{ X_{1} \leq x_{1} \}
+                  \cap  \{ X_{2} \leq x_{2} \}],
+            \end{equation*}
+
+            for all $ (x_{1}, x_{2}) \in \mathbb{R} $. This is also called
+            \textit{joint cumulative distribution function}.
+
+            We'll also abbreviate $
+            P [  \{ X_{1} \leq x_{1} \} \cap  \{ X_{2} \leq x_{2} \}] $ to
+            $ P [ X_{1} \leq x_{1}, X_{2} \leq x_{2} ] $.
+
+        \subsection*{Probability Density Function}
+
+            A random vector $ (X_{1}, X_{2}) $ with space $ \mathcal{D} $ is
+            said to be continuous if
+
+            \begin{equation*}
+                F_{X_{1}, X_{2}}(x_{1}, x_{2}) = P [  \{ X_{1} \leq x_{1} \}
+                  \cap  \{ X_{2} \leq x_{2} \} ]
+            \end{equation*}
+
+            is continuous.
+
+            The \text{joint probability density function} of $ (X_{1}, X_{2})
+            $, $ f_{X_{1}, X_{2}}(x_{1}, x_{2}) $, is defined to satisfy
+
+            \begin{equation*}
+                 F_{X_{1}, X_{2}} (x_{1}, x_{2}) = \int_{-\infty}^{x_{1}}
+                     \int_{-\infty}^{x_{2}} f_{X_{1}, X_{2}} (w_{1}, w_{2}) d w_{1} d w_{2}
+            \end{equation*}
+
+            for all $ (x_{1}, x_{2}) \in \mathbb{R} $. Then
+
+            \begin{equation*}
+                 \frac{\partial^{2} F_{X_{1}, X_{2}} (x_{1}, x_{2})}{\partial
+                     x_{1} \partial x_{2}} = f_{X_{1}, X_{2}} (x_{1}, x_{2})
+            \end{equation*}
+
+            For an event $ A \subset \mathcal{D} $
+
+
+    \section*{Random Sample}
+
 \end{document}

@@ -46,7 +46,7 @@
                 \textit{Highly improbable events bring more information to us,
                 while certain events bring no information.}
             \end{displayquote}
-            
+
             The information of an event $ x $ will therefore depends on the
             probability distribution $ p(x) $ of its random variable $ X $.
 
@@ -203,9 +203,6 @@
                 maximum, and the maximum entropy is $ \operatorname{H}(p) = \ln
                 M $.
 
-            
-
-            
         \subsection{Differential Entropy}
 
             Let $ X \subseteq \mathbb{R} $ be a continuous random variable and
@@ -307,7 +304,7 @@
                  specify the value of} $ x $ \textit{as a result of using} $
                  q(x) $.
             \end{displayquote}
-        
+
         \subsection{Kullback-Leibler Divergence}
 
             Let $ p(x) $ be an unknown distribution and we use $ q(x) $ to
@@ -337,7 +334,7 @@
 
 
             \subsubsection*{Convex function}
-                
+
                 For $ 0 \leq \lambda \leq 1 $, a convex function satisfies
 
                 \begin{equation*}
@@ -396,7 +393,7 @@
         \subsection{Gaussian Maximizes Differential Entropy}
 
             We want to maximize
-            
+
             \begin{equation*}
                  \operatorname{H}(p) = - \int p(x) \ln p(x) dx
             \end{equation*}
@@ -497,7 +494,7 @@
                  \frac{q}{p} \right] = - \int p(\mathbf{x}) \ln
                  \frac{q(\mathbf{x} | \theta)}{p(\mathbf{x})} d \mathbf{x}.
             \end{equation*}
-            
+
             Because $ p(\mathbf{x}) $ is unknown, we can't directly compute the
             KL divergence. However, we can use sample mean to estimate it
 
