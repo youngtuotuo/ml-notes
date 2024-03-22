@@ -43,7 +43,13 @@
 
 \begin{document}
 
-    \section*{Random Variable}
+    \section{First and First}
+
+        \textit{Random} itself has the meaning like \textit{unknown}, and
+        \textit{unpredictable}. It'll be a contradiction if we can define
+        what is \textit{randomness}.
+
+    \section{Random Variable}
 
         A \textit{random variable} is a function that maps the outcome of a
         random experiment to a real number. We use $ \mathcal{C} $ to
@@ -70,7 +76,7 @@
         uppercase to denote the random variable. e.g., $ x $ is a
         realization of $ X $.
 
-        \subsection*{Probability Mass Function}
+        \subsection{Probability Mass Function}
 
             A random variable $ X $ is said to be \textit{descrete} if its
             space $ \mathcal{D} $ is either finite or countable.
@@ -96,7 +102,7 @@
             Note that the notation $ P[ X = d_{i}] $ is an abbreviation, since
             the outcome $ c $ is not actually important here.
 
-        \subsection*{Cumulative Distribution Function}
+        \subsection{Cumulative Distribution Function}
 
             The \textit{cumulative distribution function}, $ F_{X}(x) $, of $ X
             $ is defined by
@@ -106,7 +112,9 @@
                 { X \leq x } ).
             \end{equation*}
 
-        \subsection*{Probability Density Function}
+            Cdf is also simply called the \textit{distribution function}.
+
+        \subsection{Probability Density Function}
 
             A random variable $ X $ is said to be \textit{continuous} if
             its cdf $ F_{X}(x) $ is continuous for all $ x \in \mathbb{R} $.
@@ -145,8 +153,58 @@
                      = P ( a < X < b)
             \end{equation*}
 
+        \subsection{Different random variable can have the same cdf}
 
-        \subsection*{Expectation}
+            Let $ X $ has be a random variable that stands for a real
+            random number randomly choosed from the interval $ (0, 1) $,
+            and we simply use the sample as the assigned number. In this case,
+            the domain is $ \mathcal{D} = (0, 1) $. Assign a probability on $ X $,
+
+            \begin{equation*}
+                P_{X}[(a, b)] = b - a, \text{ for } 0 < a < b < 1
+            \end{equation*}
+
+            Then the pdf of $ X $ is
+
+            \begin{equation*}
+                 f_{X}(x) =  \left\{
+                     \begin{array}{ll}
+                         1 & 0 < x < 1 \\
+                         0 & \text{elsewhere}
+                     \end{array}
+                 \right.
+            \end{equation*}
+
+            It's easy to show that the cdf is
+
+            \begin{equation*}
+                F_{X}(x) = P ( X \leq x ) = \left\{
+                     \begin{array}{ll}
+                         0 & \text{if } x < 0 \\
+                         x & \text{if } 0 \leq x < 1 \\
+                         1 & \text{if } x \geq 1
+                     \end{array}
+                 \right.
+            \end{equation*}
+
+            Now consider $ Y = 1 - X $,
+
+            \begin{align*}
+                F_{Y}(y) &= P(Y \leq y) = P(1 -X \leq y) = P(X \geq 1 - y) = 1 - P(X < 1 - y) \\
+                         &=  \left\{
+                             \begin{array}{ll}
+                                 0 & \text{if } y < 0        \\
+                                 y & \text{if } 0 \leq y < 1 \\
+                                 1 & \text{if } 1 \leq y
+                             \end{array}
+                         \right.
+            \end{align*}
+
+            In this case, we said $ X $ and $ Y $ are equal in distribution and
+            denote by $ X \stackrel{D}{=} Y $.
+
+
+        \subsection{Expectation}
 
             The \textit{expectation} of $ X $ is defined by
 
@@ -177,7 +235,7 @@
                 E [ k_{1} g_{1}(X) + k_{2} g_{2}(X) ] = k_{1} E [ g_{1}(X) ] + k_{2} E [ g_{2}(X) ]
             \end{equation*}
 
-        \subsection*{Variance and Standard Deviation}
+        \subsection{Variance and Standard Deviation}
 
             Let $ X $ be a random variable with finite mean $ \mu $ and $ E [ (X -
             \mu)^{2} ] $ is also finite. The variance of $ X $ is defined by
@@ -199,7 +257,7 @@
                          &= E [ X^{2} ] - \mu^{2}
             \end{align*}
 
-    \section*{Random Vector}
+    \section{Random Vector}
 
         Consider two random variables $ X_{1} $ and $ X_{2} $ on the same
         sample space $ \mathcal{C} $, that they assign each element $ c $ of $
@@ -209,7 +267,7 @@
         of ordered pairs $ \mathcal{D} =  \{ (x_{1}, x_{2}) : x_{1} = X_{1}(c),
         x_{2} = X_{2}(c), c \in \mathcal{C} \} $.
 
-        \subsection*{Probability Mass Function}
+        \subsection{Probability Mass Function}
 
             A discrete random vector $ (X_{1}, X_{2}) $ with finite or
             countable space $ \mathcal{D} $. The \textit{joint probability mass
@@ -222,10 +280,10 @@
 
             for all $ (x_{1}, x_{2}) \in \mathcal{D} $.
 
-        \subsection*{Cumulative Distribution Function}
+        \subsection{Cumulative Distribution Function}
 
-            The cumulative distribution function of $ (X_{1}, X_{2}) $, $ F_{X_{1}, X_{2}} (x_{1},
-            x_{2}) $, is defined by
+            The cumulative distribution function of $ (X_{1}, X_{2}) $, $
+            F_{X_{1}, X_{2}} (x_{1}, x_{2}) $, is defined by
 
             \begin{equation*}
                   F_{X_{1}, X_{2}} (x_{1}, x_{2}) = P [  \{ X_{1} \leq x_{1} \}
@@ -239,7 +297,7 @@
             P [  \{ X_{1} \leq x_{1} \} \cap  \{ X_{2} \leq x_{2} \}] $ to
             $ P [ X_{1} \leq x_{1}, X_{2} \leq x_{2} ] $.
 
-        \subsection*{Probability Density Function}
+        \subsection{Probability Density Function}
 
             A random vector $ (X_{1}, X_{2}) $ with space $ \mathcal{D} $ is
             said to be continuous if
@@ -273,9 +331,73 @@
                      (x_{1}, x_{2}) d x_{1} d x_{2}
             \end{equation*}
 
-        \subsection*{Marginals}
+        \subsection{Marginals}
 
+            Let $ (X_{1}, X_{2}) $ be a random vector. Recall that
 
-    \section*{Random Sample}
+            \begin{align*}
+                \{ X_{1} \leq x_{1} \} &= \{ c : X_{1}(c) \leq x_{1} \}
+                    = \{ c: X_{1}(c) \leq x_{1} \} \cap \{ c: -\infty < X_{2} < \infty \} \\
+                                       &= \{ X_{1} \leq x_{1}, -\infty < X_{2} < \infty \},
+            \end{align*}
+
+            hence,
+
+            \begin{equation*}
+                F_{X_{1}}(x_{1}) = P[ X_{1} \leq x_{1}, -\infty < X_{2} < \infty ],
+            \end{equation*}
+
+            for all $ x_{1} \in \mathbb{R} $. By the property of cdf, we can get
+
+            \begin{equation*}
+                 F_{X_{1}}(x_{1}) = \lim_{x_{2} \rightarrow \infty} F_{X_{1}, X_{2}} (x_{1}, x_{2}).
+            \end{equation*}
+
+            This is exactly where we connect the cdf, pdf, pmf between random
+            variable and random vector.
+
+            \subsubsection{Discrete}
+
+                For discrete $ (X_{1}, X_{2}) $. Let $ \mathcal{D}_{X_{1}} $ be the support of $ X_{1} $, i.e.,
+                $ \mathcal{D}_{X_{1}} = \{ x \in \mathcal{D} : p_{X_{1}}(x) \neq 0 \} $ where $ \mathcal{D} $ is
+                the space of $ X_{1} $. For $ x_{1} \in \mathcal{D}_{X_{1}} $
+
+                \begin{align*}
+                    F_{X_{1}}(x_{1}) &= P [ X_{1} \leq x_{1}, -\infty < X_{2} < \infty ] \\
+                                     &= \mathop{\sum \sum}_{\substack{w_{1} \leq x_{1}, -\infty < x_{2} < \infty }}
+                                        p_{X_{1}, X_{2}}(w_{1}, x_{2}) \\
+                                     &= \sum_{ w_{1} \leq x_{1}} \left\{ \sum_{ x_{2} < \infty}
+                                            p_{X_{1}, X_{2}}(w_{1}, x_{2})
+                                        \right\}
+                \end{align*}
+
+                By uniqueness of cdfs, we know the pmf of $ X_{1} $ must be
+
+                \begin{equation*}
+                     p_{X_{1}}(x_{1}) = \sum_{x_{2} < \infty} p_{X_{1}, X_{2}} (x_{1}, x_{2}),
+                \end{equation*}
+
+                for all $ x_{1} \in \mathcal{D}_{X_{1}} $. This is called the \textit{marginal pmf} of $ X_{1} $.
+                We can get similar result for $ X_{2} $.
+
+            \subsubsection{Continuous}
+
+                For continuous $ (X_{1}, X_{2}) $. We use the same notation as the discrete one. Then
+
+                \begin{equation*}
+                    F_{X_{1}} (x_{1}) = \int_{ -\infty }^{ x_{1} } \int_{
+                        -\infty }^{ \infty } f_{X_{1}, X_{2}} (w_{1}, x_{2}) d x_{2} d w_{1}
+                        = \int_{ -\infty }^{ x_{1} } \left\{
+                            \int_{ -\infty }^{ \infty } f_{X_{1}, X_{2}} (w_{1}, x_{2}) d x_{2}
+                            \right\} d w_{1},
+                \end{equation*}
+
+                for all $ x_{1} \in \mathcal{D}_{X_{1}} $. The pdf of $ X_{1} $ must be
+
+                \begin{equation*}
+                     f_{X_{1}}(x_{1}) = \int_{ -\infty }^{ \infty } f_{X_{1}, X_{2}} (x_{1}, x_{2}) d x_{2}
+                \end{equation*}
+
+    \section{Random Sample}
 
 \end{document}
