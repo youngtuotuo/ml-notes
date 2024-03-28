@@ -459,10 +459,13 @@
 
                 the \textit{conditional variance},
 
-                \begin{equation*}
-                    \operatorname{Var}[X_{2} | x_{1}] = E[(X_{2} -E[X_{2} | x_{1}])^2 | x_{1}] = \int_{-\infty}^{-\infty} (x_{2} - E[X_{2} | x_{1}])^2 \frac{
-                     f_{X_{1}, X_{2}}(x_{1}, x_{2}) }{ f_{X_{1}}( x_{1}) } d x_{2},
-                \end{equation*}
+                \begin{align*}
+                    \operatorname{Var}[X_{2} | x_{1}]
+                        &= E[(X_{2} -E[X_{2} | x_{1}])^2 | x_{1}] \\
+                        &= \int_{-\infty}^{-\infty} (x_{2} - E[X_{2} | x_{1}])^2 \frac{
+                         f_{X_{1}, X_{2}}(x_{1}, x_{2}) }{ f_{X_{1}}( x_{1}) } d x_{2} \\
+                        &= E(X_{2}^{2}|x_{1}) - \left[ E(X_{2}|x_{1}) \right]^{2}
+                \end{align*}
 
                 and, for $ u(X_{2}) $ be a function of $ X_{2} $,
 
@@ -470,6 +473,9 @@
                     E[u(X_{2}) | x_{1}] = \int_{-\infty}^{-\infty} u(x_{2}) \frac{
                      f_{X_{1}, X_{2}}(x_{1}, x_{2}) }{ f_{X_{1}}( x_{1}) } d x_{2},
                 \end{equation*}
+
+                When the realization $ x_{1} $ is not that important, we'll denote the above concepts by
+                $ E[X_{2}|X_{1}] $, $ \operatorname{Var}[X_{2}|X_{1}] $, and $ E[u(X_{2})|X_{1}] $.
 
                 \subsubsection{Important Theorem}
 
@@ -494,25 +500,43 @@
                     and $ f_{1}(x_{1}) = f_{X_{1}}(x_{1}) = \int f(x_{1},
                     x_{2}) d x_{2} $.
 
-                    For the second result, let $ \mu = E(X_{2}) $, consider
+                    For the second result, let $ \mu_{2} = E(X_{2}) $, consider
 
                     \begin{align*}
-                        \operatorname{Var}(X_{2}) &= E[(X_{2} - \mu)^{2}] \\
+                        \operatorname{Var}(X_{2}) &= E[(X_{2} - \mu_{2})^{2}] \\
                                                   &= E \left[ (X_{2} - E(X_{2}|X_{1}) + E(X_{2}|X_{1}) - \mu_{2})^{2} \right] \\
-                                                  &= E \left[ (X_{2} - E(X_{2}|X_{1})^2 \right] + E \left[ (E(X_{2}|X_{1}) - \mu_{2})^2 \right]
-                                                   + 2E \left[ (X_{2} - E(X_{2}|X_{1}))(E(X_{2}|X_{1}) - \mu_{2}) \right],
+                                                  &= E \left[ (X_{2} - E(X_{2}|X_{1})^2 \right] + E \left[ (E(X_{2}|X_{1}) - \mu_{2})^2 \right] \\
+                                                  &\qquad + 2E \left[ (X_{2} - E(X_{2}|X_{1}))(E(X_{2}|X_{1}) - \mu_{2}) \right],
                     \end{align*}
 
                     the last term is equal to
 
                     \begin{align*}
                          &2\int_{-\infty}^{\infty} \int_{-\infty}^{\infty}
-                             (X_{2} - E(X_{2}|X_{1}))(E(X_{2}|X_{1}) - \mu_{2}) f(x_{1}, x_{2}) d x_{2} d x_{1} \\
+                             (x_{2} - E(X_{2}|X_{1}))(E(X_{2}|X_{1}) - \mu_{2}) f(x_{1}, x_{2}) d x_{2} d x_{1} \\
                         =&2\int_{-\infty}^{\infty} (E(X_{2}|X_{1}) - \mu_{2}) \left\{ \int_{-\infty}^{\infty}
-                        (X_{2} - E(X_{2}|X_{1})) \frac{f(x_{1}, x_{2})}{f_{1}(x_{1})} d x_{2} \right\} f_{1}(x_{1}) d x_{1}
+                            (x_{2} - E(X_{2}|X_{1})) \frac{f(x_{1}, x_{2})}{f_{1}(x_{1})} d x_{2} \right\} f_{1}(x_{1}) d x_{1},
                     \end{align*}
 
+                    where the integral inside the curly braces is zero. Hence the variance of $ X_{2} $ is
 
+                    \begin{equation*}
+                         \operatorname{Var}(X_{2}) = E \left[ (X_{2} -
+                             E(X_{2}|X_{1})^2 \right] + E \left[ (E(X_{2}|X_{1}) -
+                     \mu_{2})^2 \right]
+                    \end{equation*}
+
+                    The first term is non negative, the second term is
+
+                    \begin{equation*}
+                        E\left[ (E(X_{2} | X_{1}) - E(X_{2}))^{2} \right] 
+                            = E\left[ (E(X_{2} | X_{1}) - E[ E(X_{2} | X_{1}) ])^{2} \right]
+                            = \operatorname{Var} \left[ E(X_{2} | X_{1}) \right],
+                    \end{equation*}
+
+                    we get the result $ \operatorname{Var}[E(X_{2}|X_{1})] \leq \operatorname{Var}(X_{2}) $.
+
+                    This theorem tells us that,
 
     \section{Random Sample}
 
