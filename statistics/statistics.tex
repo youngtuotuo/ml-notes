@@ -245,7 +245,7 @@
             \mu)^{2} ] $ is also finite. The variance of $ X $ is defined by
 
             \begin{equation}
-                var[ X ] = E [ (X - \mu)^{2} ]
+                \operatorname{Var}[ X ] = E [ (X - \mu)^{2} ]
             \end{equation}
 
             Variance is mostly denoted by $ \sigma^{2} $. The single $ \sigma $ is
@@ -404,6 +404,14 @@
 
             \subsection{Expectation}
 
+                From above, we have
+
+                \begin{align*}
+                    E(X_{1}) &= \int x_{1} f_{X_{1}}(x_{1}) d x_{1} \\
+                             &= \int x_{1} \left\{ \int f_{X_{1}, X_{2}}(x_{1}, x_{2}) d x_{2} \right\} d x_{1} \\
+                             &= \int \int x_{1} f_{X_{1}, X_{2}}(x_{1}, x_{2}) d x_{2} d x_{1}
+                \end{align*}
+
                 Let $ \mathbf{X} = (X_{1}, X_{2})' $ be a random vector. The
                 expectation $ E( \mathbf{X} ) $ exists if the expectations $
                 X_{1} $ and $ X_{2} $ exist, and, is computed by
@@ -415,7 +423,96 @@
                     \end{array} \right]
                 \end{equation*}
 
-                It's easy to verity that $ E[ \mathbf{X} ] $ is linear.
+                It's easy to verify that $ E[ \mathbf{X} ] $ is linear.
+
+            \subsection{Conditional Distributions and Expectations}
+
+                Let $ f_{X_{1}, X_{2}}(x_{1}, x_{2}) $ be the joint pdf of two
+                random variables $ X_{1} $ and $ X_{2} $. Let $
+                f_{X_{1}}(x_{1}) $ and $ f_{X_{2}}(x_{2}) $ denote the marginal
+                pdf of $ X1 $ and $ X_{2} $, respectively. Observe that
+
+                \begin{equation*}
+                     \int_{ -\infty }^{ -\infty } \frac{ f_{X_{1}, X_{2}}(x_{1}, x_{2}) }{ f_{X_{1}}( x_{1}) } d x_{2}
+                        = \frac{1}{ f_{X_{1}}(x_{1}) } \int_{ -\infty }^{ -\infty } f_{X_{1}, X_{2}}(x_{1}, x_{2}) d x_{2}
+                        = \frac{1}{ f_{X_{1}}(x_{1}) } f_{X_{1}}(x_{1}) = 1
+                \end{equation*}
+
+                That is, $ \frac{ f_{X_{1}, X_{2}}(x_{1}, x_{2}) }{ f_{X_{1}}(
+                x_{1}) } $ satisfies the properties of a pdf of one continous
+                random variable on the support of $ X1 $. We called this the
+                \textit{conditional pdf} of $ X_{2} $, given $ X_{1} = x_{1} $.
+
+                The \textit{conditional probability} is then defined by
+
+                \begin{equation*}
+                     P( a < X_{2} < b | X_{1} = x_{1}) = \int_{a}^{b} \frac{
+                     f_{X_{1}, X_{2}}(x_{1}, x_{2}) }{ f_{X_{1}}( x_{1}) } d x_{2},
+                \end{equation*}
+
+                furthermore, the \textit{conditional expectation},
+
+                \begin{equation*}
+                    E[X_{2} | x_{1}] = \int_{-\infty}^{-\infty} x_{2} \frac{
+                     f_{X_{1}, X_{2}}(x_{1}, x_{2}) }{ f_{X_{1}}( x_{1}) } d x_{2},
+                \end{equation*}
+
+                the \textit{conditional variance},
+
+                \begin{equation*}
+                    \operatorname{Var}[X_{2} | x_{1}] = E[(X_{2} -E[X_{2} | x_{1}])^2 | x_{1}] = \int_{-\infty}^{-\infty} (x_{2} - E[X_{2} | x_{1}])^2 \frac{
+                     f_{X_{1}, X_{2}}(x_{1}, x_{2}) }{ f_{X_{1}}( x_{1}) } d x_{2},
+                \end{equation*}
+
+                and, for $ u(X_{2}) $ be a function of $ X_{2} $,
+
+                \begin{equation*}
+                    E[u(X_{2}) | x_{1}] = \int_{-\infty}^{-\infty} u(x_{2}) \frac{
+                     f_{X_{1}, X_{2}}(x_{1}, x_{2}) }{ f_{X_{1}}( x_{1}) } d x_{2},
+                \end{equation*}
+
+                \subsubsection{Important Theorem}
+
+                    Let $ ( X_{1}, X_{2} ) $ be a random vector such that the variance of $ X_{2} $ is finite. Then
+
+                    \begin{align*}
+                        & E[E(X_{2}|X_{1})] = E(X_{2}),\\
+                        & \operatorname{Var}[E(X_{2}|X_{1})] \leq \operatorname{Var}(X_{2})
+                    \end{align*}
+
+                    \textit{Proof}: Consider
+
+                    \begin{align*}
+                        E(X_{2}) &= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} x_{2} f(x_{1}, x_{2}) d x_{2} d x_{1} \\
+                                 &= \int_{-\infty}^{\infty} \left[
+                                     \int_{-\infty}^{\infty} x_{2} \frac{f(x_{1}, x_{2})}{f_{1}(x_{1})} d x_{2} \right] f_{1}(x_{1}) d x_{1} \\
+                                 &= \int_{-\infty}^{\infty} E(X_{2}|x_{1}) f_{1}(x_{1}) d x_{1} \\
+                                 &= E[E(X_{2}|X_{1})],
+                    \end{align*}
+
+                    where $ f(x_{1}, x_{2}) = f_{X_{1},X_{2}}(x_{1}, x_{2}) $
+                    and $ f_{1}(x_{1}) = f_{X_{1}}(x_{1}) = \int f(x_{1},
+                    x_{2}) d x_{2} $.
+
+                    For the second result, let $ \mu = E(X_{2}) $, consider
+
+                    \begin{align*}
+                        \operatorname{Var}(X_{2}) &= E[(X_{2} - \mu)^{2}] \\
+                                                  &= E \left[ (X_{2} - E(X_{2}|X_{1}) + E(X_{2}|X_{1}) - \mu_{2})^{2} \right] \\
+                                                  &= E \left[ (X_{2} - E(X_{2}|X_{1})^2 \right] + E \left[ (E(X_{2}|X_{1}) - \mu_{2})^2 \right]
+                                                   + 2E \left[ (X_{2} - E(X_{2}|X_{1}))(E(X_{2}|X_{1}) - \mu_{2}) \right],
+                    \end{align*}
+
+                    the last term is equal to
+
+                    \begin{align*}
+                         &2\int_{-\infty}^{\infty} \int_{-\infty}^{\infty}
+                             (X_{2} - E(X_{2}|X_{1}))(E(X_{2}|X_{1}) - \mu_{2}) f(x_{1}, x_{2}) d x_{2} d x_{1} \\
+                        =&2\int_{-\infty}^{\infty} (E(X_{2}|X_{1}) - \mu_{2}) \left\{ \int_{-\infty}^{\infty}
+                        (X_{2} - E(X_{2}|X_{1})) \frac{f(x_{1}, x_{2})}{f_{1}(x_{1})} d x_{2} \right\} f_{1}(x_{1}) d x_{1}
+                    \end{align*}
+
+
 
     \section{Random Sample}
 
