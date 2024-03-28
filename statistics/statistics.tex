@@ -43,11 +43,12 @@
 
 \begin{document}
 
-    \section{First and First}
+    \section*{First and First}
 
         \textit{Random} itself has the meaning like \textit{unknown}, and
         \textit{unpredictable}. It'll be a contradiction if we can define
-        what is \textit{randomness}.
+        what is \textit{randomness}. Or, from different aspect, we can only use
+        \textit{unknown} to define \textit{random}.
 
     \section{Random Variable}
 
@@ -400,6 +401,21 @@
                 \begin{equation*}
                      f_{X_{1}}(x_{1}) = \int_{ -\infty }^{ \infty } f_{X_{1}, X_{2}} (x_{1}, x_{2}) d x_{2}
                 \end{equation*}
+
+            \subsection{Expectation}
+
+                Let $ \mathbf{X} = (X_{1}, X_{2})' $ be a random vector. The
+                expectation $ E( \mathbf{X} ) $ exists if the expectations $
+                X_{1} $ and $ X_{2} $ exist, and, is computed by
+
+                \begin{equation*}
+                    E[ \mathbf{X} ] = \left[ \begin{array}{l}
+                            E( X_{1} ) \\
+                            E( X_{2} )
+                    \end{array} \right]
+                \end{equation*}
+
+                It's easy to verity that $ E[ \mathbf{X} ] $ is linear.
 
     \section{Random Sample}
 
