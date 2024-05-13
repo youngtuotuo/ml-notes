@@ -45,9 +45,9 @@
 
     \section*{First and First}
 
-        \textit{Random} itself has the meaning like \textit{unknown}, and
-        \textit{unpredictable}. It'll be a contradiction if we can define
-        what is \textit{randomness}. Or, from different aspect, we can only use
+        \textit{Random} itself has the meaning of \textit{unknown}, and
+        \textit{unpredictable}. It'll be a contradiction if we can define what
+        is random. Or, from a different aspect, we can only use
         \textit{unknown} to define \textit{random}.
 
     \section{Random Variable}
@@ -69,16 +69,20 @@
         is unobservable. We can only define the mapping, and then observe
         the result of applying this mapping to an experiment outcome.
 
-        The \textit{realization} of a random variable is the result of
-        applying the random variable (i.e., mapping) to an observed outcome
-        of a random experiment. This is what we actually observe.
+        \subsection{Realization}
 
-        Typically, we use lowercase to denote the realized number;
-        uppercase to denote the random variable. e.g., $ x $ is a
-        realization of $ X $.
+            The \textit{realization} of a random variable is the result of
+            applying the random variable (i.e., mapping) to an observed outcome
+            of a random experiment. This is what we actually observe.
 
-        The \textit{space} or \textit{range} of $ X $ is a set of real
-        numbers $ \mathcal{D} = \{ X(c): c \in C \} $.
+            Typically, we use lowercase to denote the realized number;
+            uppercase to denote the random variable. e.g., $ x $ is a
+            realization of $ X $.
+
+        \subsection{Space}
+
+            The \textit{space} or \textit{range} of $ X $ is a set of real
+            numbers $ \mathcal{D} = \{ X(c): c \in C \} $.
 
         \subsection{Probability Mass Function}
 
@@ -450,14 +454,14 @@
                      f_{X_{1}, X_{2}}(x_{1}, x_{2}) }{ f_{X_{1}}( x_{1}) } d x_{2},
                 \end{equation*}
 
-                furthermore, the \textit{conditional expectation},
+                furthermore, the \textit{conditional expectation} is,
 
                 \begin{equation*}
                     E[X_{2} | x_{1}] = \int_{-\infty}^{-\infty} x_{2} \frac{
                      f_{X_{1}, X_{2}}(x_{1}, x_{2}) }{ f_{X_{1}}( x_{1}) } d x_{2},
                 \end{equation*}
 
-                the \textit{conditional variance},
+                the \textit{conditional variance} is,
 
                 \begin{align*}
                     \operatorname{Var}[X_{2} | x_{1}]
@@ -474,6 +478,9 @@
                      f_{X_{1}, X_{2}}(x_{1}, x_{2}) }{ f_{X_{1}}( x_{1}) } d x_{2},
                 \end{equation*}
 
+                Note that both $ E[X_{2} | x_{1}] $ and $ \operatorname{Var}[X_{2} | x_{1}] $
+                are a function of $ x_{1} $.
+
                 When the realization $ x_{1} $ is not that important, we'll denote the above concepts by
                 $ E[X_{2}|X_{1}] $, $ \operatorname{Var}[X_{2}|X_{1}] $, and $ E[u(X_{2})|X_{1}] $.
 
@@ -486,57 +493,64 @@
                         & \operatorname{Var}[E(X_{2}|X_{1})] \leq \operatorname{Var}(X_{2})
                     \end{align*}
 
-                    \textit{Proof}: Consider
+                    \begin{proof}
 
-                    \begin{align*}
-                        E(X_{2}) &= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} x_{2} f(x_{1}, x_{2}) d x_{2} d x_{1} \\
-                                 &= \int_{-\infty}^{\infty} \left[
-                                     \int_{-\infty}^{\infty} x_{2} \frac{f(x_{1}, x_{2})}{f_{1}(x_{1})} d x_{2} \right] f_{1}(x_{1}) d x_{1} \\
-                                 &= \int_{-\infty}^{\infty} E(X_{2}|x_{1}) f_{1}(x_{1}) d x_{1} \\
-                                 &= E[E(X_{2}|X_{1})],
-                    \end{align*}
+                        Consider
 
-                    where $ f(x_{1}, x_{2}) = f_{X_{1},X_{2}}(x_{1}, x_{2}) $
-                    and $ f_{1}(x_{1}) = f_{X_{1}}(x_{1}) = \int f(x_{1},
-                    x_{2}) d x_{2} $.
+                        \begin{align*}
+                            E(X_{2}) &= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} x_{2} f(x_{1}, x_{2}) d x_{2} d x_{1} \\
+                                     &= \int_{-\infty}^{\infty} \left[
+                                         \int_{-\infty}^{\infty} x_{2} \frac{f(x_{1}, x_{2})}{f_{1}(x_{1})} d x_{2} \right] f_{1}(x_{1}) d x_{1} \\
+                                     &= \int_{-\infty}^{\infty} E(X_{2}|x_{1}) f_{1}(x_{1}) d x_{1} \\
+                                     &= E[E(X_{2}|X_{1})],
+                        \end{align*}
 
-                    For the second result, let $ \mu_{2} = E(X_{2}) $, consider
+                        where $ f(x_{1}, x_{2}) = f_{X_{1},X_{2}}(x_{1}, x_{2}) $
+                        and $ f_{1}(x_{1}) = f_{X_{1}}(x_{1}) = \int f(x_{1},
+                        x_{2}) d x_{2} $.
 
-                    \begin{align*}
-                        \operatorname{Var}(X_{2}) &= E[(X_{2} - \mu_{2})^{2}] \\
-                                                  &= E \left[ (X_{2} - E(X_{2}|X_{1}) + E(X_{2}|X_{1}) - \mu_{2})^{2} \right] \\
-                                                  &= E \left[ (X_{2} - E(X_{2}|X_{1})^2 \right] + E \left[ (E(X_{2}|X_{1}) - \mu_{2})^2 \right] \\
-                                                  &\qquad + 2E \left[ (X_{2} - E(X_{2}|X_{1}))(E(X_{2}|X_{1}) - \mu_{2}) \right],
-                    \end{align*}
+                        For the second result, let $ \mu_{2} = E(X_{2}) $, consider
 
-                    the last term is equal to
+                        \begin{align*}
+                            \operatorname{Var}(X_{2}) &= E[(X_{2} - \mu_{2})^{2}] \\
+                                                      &= E \left[ (X_{2} - E(X_{2}|X_{1}) + E(X_{2}|X_{1}) - \mu_{2})^{2} \right] \\
+                                                      &= E \left[ (X_{2} - E(X_{2}|X_{1})^2 \right] + E \left[ (E(X_{2}|X_{1}) - \mu_{2})^2 \right] \\
+                                                      &\qquad + 2E \left[ (X_{2} - E(X_{2}|X_{1}))(E(X_{2}|X_{1}) - \mu_{2}) \right],
+                        \end{align*}
 
-                    \begin{align*}
-                         &2\int_{-\infty}^{\infty} \int_{-\infty}^{\infty}
-                             (x_{2} - E(X_{2}|X_{1}))(E(X_{2}|X_{1}) - \mu_{2}) f(x_{1}, x_{2}) d x_{2} d x_{1} \\
-                        =&2\int_{-\infty}^{\infty} (E(X_{2}|X_{1}) - \mu_{2}) \left\{ \int_{-\infty}^{\infty}
-                            (x_{2} - E(X_{2}|X_{1})) \frac{f(x_{1}, x_{2})}{f_{1}(x_{1})} d x_{2} \right\} f_{1}(x_{1}) d x_{1},
-                    \end{align*}
+                        the last term is equal to
 
-                    where the integral inside the curly braces is zero. Hence the variance of $ X_{2} $ is
+                        \begin{align*}
+                             &2\int_{-\infty}^{\infty} \int_{-\infty}^{\infty}
+                                 (x_{2} - E(X_{2}|X_{1}))(E(X_{2}|X_{1}) - \mu_{2}) f(x_{1}, x_{2}) d x_{2} d x_{1} \\
+                            =&2\int_{-\infty}^{\infty} (E(X_{2}|X_{1}) - \mu_{2}) \left\{ \int_{-\infty}^{\infty}
+                                (x_{2} - E(X_{2}|X_{1})) \frac{f(x_{1}, x_{2})}{f_{1}(x_{1})} d x_{2} \right\} f_{1}(x_{1}) d x_{1},
+                        \end{align*}
 
-                    \begin{equation*}
-                         \operatorname{Var}(X_{2}) = E \left[ (X_{2} -
-                             E(X_{2}|X_{1})^2 \right] + E \left[ (E(X_{2}|X_{1}) -
-                     \mu_{2})^2 \right]
-                    \end{equation*}
+                        where the integral inside the curly braces is zero. Hence the variance of $ X_{2} $ is
 
-                    The first term is non negative, the second term is
+                        \begin{equation*}
+                             \operatorname{Var}(X_{2}) = E \left[ (X_{2} -
+                                 E(X_{2}|X_{1})^2 \right] + E \left[ (E(X_{2}|X_{1}) -
+                         \mu_{2})^2 \right]
+                        \end{equation*}
 
-                    \begin{equation*}
-                        E\left[ (E(X_{2} | X_{1}) - E(X_{2}))^{2} \right] 
-                            = E\left[ (E(X_{2} | X_{1}) - E[ E(X_{2} | X_{1}) ])^{2} \right]
-                            = \operatorname{Var} \left[ E(X_{2} | X_{1}) \right],
-                    \end{equation*}
+                        The first term is non negative, the second term is
 
-                    we get the result $ \operatorname{Var}[E(X_{2}|X_{1})] \leq \operatorname{Var}(X_{2}) $.
+                        \begin{equation*}
+                            E\left[ (E(X_{2} | X_{1}) - E(X_{2}))^{2} \right] 
+                                = E\left[ (E(X_{2} | X_{1}) - E[ E(X_{2} | X_{1}) ])^{2} \right]
+                                = \operatorname{Var} \left[ E(X_{2} | X_{1}) \right],
+                        \end{equation*}
 
-                    This theorem tells us that,
+                        we get the result $ \operatorname{Var}[E(X_{2}|X_{1})] \leq \operatorname{Var}(X_{2}) $.
+
+                    \end{proof}
+
+                    This theorem tells us that, when $ \mu_{2} $ is unkown, we would put more reliance in
+                    $ E(X_{2} | X_{1}) $ as a guess. That is, if we observe the pair $ (X_{1}, X_{2}) $ to
+                    be $ (x_{1}, x_{2}) $, we could perfer to use $ E(X_{2} | x_{1}) $ to $ x_{2} $ as a
+                    guess at the unknown $ \mu_{2} $.
 
     \section{Random Sample}
 
