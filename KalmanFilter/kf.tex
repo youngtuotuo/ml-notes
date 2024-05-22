@@ -39,20 +39,21 @@
 \allowdisplaybreaks
 
 % https://arxiv.org/abs/1910.03558
+% https://www.amazon.com/Optimization-Vector-Space-Methods-Luenberger/dp/047118117X
 
 \begin{document}
 
     \section*{Problem Setup}
 
-        We have a target state $ x_{k} \in \mathbb{R}^{n} $, we want to
-        estimate it during each timestamp $ k \in \mathbb{N} \cup \{0\} $. We
-        create some measurement method to help us guess each $ x_{k} $. The
-        Kalman Filter's objective is trying to guess a theoretically perfect $
-        x_{k} $ from each measurement $ z_{k} $.
+        We have an unknown target state $ x_{k} \in \mathbb{R}^{n} $, we want
+        to estimate it during each timestamp $ k \in \mathbb{N} \cup \{0\} $.
+        We create some measurement method to help us guess each $ x_{k} $. The
+        Kalman Filter's objective is to guess a theoretically perfect $ x_{k} $
+        from each measurement $ z_{k} $.
 
-        TL;DR, the Kalman Filter is
-        the process doing: get $ z_{1} $, guess $ x_{1} $; get $ z_{2} $, guess
-        $ x_{2} $; get $ z_{3} $, guess $ x_{3} $, and so on.
+        TL;DR, the Kalman Filter is the process doing: get $ z_{1} $, guess $
+        x_{1} $; get $ z_{2} $, guess $ x_{2} $; get $ z_{3} $, guess $ x_{3}
+        $, and so on.
 
     \section{Assumptions}
 
@@ -68,21 +69,24 @@
                  x_{k+1} = F_{k}x_{k} + u_{k}
             \end{equation}
 
-            where $ u_{k} \sim \mathcal{N}(0, Q_{k}) $  is a white noise.
+            where $ u_{k} \sim \mathcal{N}(0, Q_{k}) $  is a white noise, $
+            u_{k} \in \mathbb{R}^{n} $, and $ Q_{k} \in \mathbb{R}^{n \times n}
+            $.
 
             This is also called \textit{the linear model of Kalman Filter}.
 
         \subsection{Measurement to Real State}
 
             Let $ H_{k} \in \mathbb{R}^{m \times n} $ be a matrix. We assume
-            that the current measurement $ z_{k} \in \mathbb{R}^{m} $ is obtained from the current
-            state $ x_{k} $ by
+            that the current measurement $ z_{k} \in \mathbb{R}^{m} $ is
+            obtained from the current state $ x_{k} $ by
 
             \begin{equation}\label{eq:measurement}
                  z_{k} = H_{k} x_{k} + w_{k}
             \end{equation}
 
-            where $ w_{k} \sim \mathcal{N}(0, R_{k}) $  is a white noise.
+            where $ w_{k} \sim \mathcal{N}(0, R_{k}) $ is a white noise, $ w_{k} \in
+            \mathbb{R}^{m} $, and $ R_{k} \in \mathbb{R}^{m \times m} $.
 
     \section{Initial Setup}
 
@@ -103,11 +107,13 @@
 
         \subsection{Minimum Variance Unbiased Estimate}
 
-            Consider the measurement equation \eqref{eq:measurement}, we wanna
-            seek a matrix $ K_{k} \in \mathbb{R}^{n \times m} $ that can do the guessing $ \hat{x}_{k} =
-            K_{k}z_{k} $. Since $ w_{k} $ is a random vector, $ z_{k} $ is also
-            a random vector, then so does $ \hat{x}_{k} $. As a result, the error
-            term $ \hat{x}_{k} - x_{k} $ is a random vector as well.
+            Consider the measurement equation \eqref{eq:measurement}, we wanna seek
+            a matrix $ K_{k} \in \mathbb{R}^{n \times m} $ that can do the guessing
+            $ \hat{x}_{k} = K_{k}z_{k} $. Since $ w_{k} $ is a random vector, $
+            z_{k} $ is also a random vector, then so does $ \hat{x}_{k} $. As a
+            result, the error term $ \hat{x}_{k} - x_{k} $ is a random vector as
+            well. In this subsection's discussion, the timestamp subscript $ k $
+            won't effect any computation, so I ignore it to avoid the confusion.
 
             We can define an inner product of two random vectors be
 
@@ -128,78 +134,76 @@
             Now, consider the l2-norm
 
             \begin{align*}
-                 &\| \hat{x}_{k} - x_{k} \|^{2} = \operatorname{E}\left[ (\hat{x}_{k} - x_{k})^{T} (\hat{x}_{k} - x_{k}) \right] \\
-                =&\operatorname{E}\left[ \left( K_{k}z_{k} - x_{k} \right)^{T} \left( K_{k}z_{k} - x_{k} \right) \right] \\
-                =&\operatorname{E}\left[ \left( K_{k} \left( H_{k}x_{k} + w_{k} \right) - x_{k} \right)^{T} \left( K_{k}\left( H_{k}x_{k} + w_{k} \right) - x_{k} \right) \right] \\
-                =&\operatorname{E}\left[ \left( (K_{k}H_{k}x_{k})^{T} + (K_{k}w_{k})^{T} - x_{k}^{T} \right) \left( K_{k}\left( H_{k}x_{k} + w_{k} \right) - x_{k} \right) \right] \\
-                =&\operatorname{E}\left[ \left( K_{k}H_{k}x_{k} - x_{k} \right)^{T} \left( K_{k}H_{k}x_{k} - x_{k} \right) \right] + \operatorname{E}\left[ \left( K_{k}w_{k} \right)^{T} (K_{k}w_{k}) \right] \\
-                =&\|K_{k}H_{k}x_{k} - x_{k}\|^{2} + \operatorname{Tr}\left( \operatorname{E}\left[ K_{k}w_{k}\left( K_{k}w_{k} \right)^{T} \right] \right) \\
-                =&\|K_{k}H_{k}x_{k} - x_{k}\|^{2} + \operatorname{Tr}\left( K_{k} \operatorname{E}[w_{k} w_{k}^{T}] K_{k}^{T} \right) \\
-                =&\|K_{k}H_{k}x_{k} - x_{k}\|^{2} + \operatorname{Tr}\left( K_{k} R_{k} K_{k}^{T} \right).
+                 &\| \hat{x} - x \|^{2} = \operatorname{E}\left[ (\hat{x} - x)^{T} (\hat{x} - x) \right] \\
+                =&\operatorname{E}\left[ \left( Kz - x \right)^{T} \left( Kz - x \right) \right] \\
+                =&\operatorname{E}\left[ \left( K \left( Hx + w \right) - x \right)^{T} \left( K\left( Hx + w \right) - x \right) \right] \\
+                =&\operatorname{E}\left[ \left( (KHx)^{T} + (Kw)^{T} - x^{T} \right) \left( K\left( Hx + w \right) - x \right) \right] \\
+                =&\operatorname{E}\left[ \left( KHx - x \right)^{T} \left( KHx - x \right) \right] + \operatorname{E}\left[ \left( Kw \right)^{T} (Kw) \right] \\
+                =&\|KHx - x\|^{2} + \operatorname{Tr}\left( \operatorname{E}\left[ Kw\left( Kw \right)^{T} \right] \right) \\
+                =&\|KHx - x\|^{2} + \operatorname{Tr}\left( K \operatorname{E}[w w^{T}] K^{T} \right) \\
+                =&\|KHx - x\|^{2} + \operatorname{Tr}\left( K R K^{T} \right).
             \end{align*}
 
-            The final term still depends on the actual state $ x_{k} $, but we never know its value. To solve
-            this, we add one more assumption $ K_{k}H_{k} = I $. Observe that if $ K_{k}H_{k} = 1 $, we have
+            The final term still depends on the actual state $ x $, but we
+            never know its value. To solve this, we add one more assumption $
+            KH = I $. Observe that if $ KH = 1 $, we have
 
             \begin{equation*}
-                \operatorname{E}[\hat{x}_{k}] = \operatorname{E}\left[
-                    K_{k}z_{k} \right] = \operatorname{E}\left[ K_{k}H_{k}x_{k} +
-                K_{k}w_{k} \right] = \operatorname{E}\left[ K_{k}H_{k}x_{k} \right]
-                + \operatorname{E}\left[ K_{k}w_{k} \right] = x_{k},
+                \operatorname{E}[\hat{x}] = \operatorname{E}\left[
+                    Kz \right] = \operatorname{E}\left[ KHx +
+                Kw \right] = \operatorname{E}\left[ KHx \right]
+                + \operatorname{E}\left[ Kw \right] = x,
             \end{equation*}
 
-            this implies that $ \hat{x}_{k} $ is an unbiased estimate of $ x_{k} $.
+            this implies that $ \hat{x} $ is an unbiased estimate of $ x $.
 
-            Then the error term becomes quite simple when we assume $ K_{k}H_{k} = 1 $
+            Then the error term becomes quite simple when we assume $ KH = 1 $
 
             \begin{equation*}
-                 \| \hat{x}_{k} - x_{k} \|^{2} = \operatorname{E}\left[ (\hat{x}_{k} - x_{k})^{T} (\hat{x}_{k} - x_{k}) \right]
-                 = \operatorname{Tr}\left( K_{k} R_{k} K_{k}^{T} \right)
+                 \| \hat{x} - x \|^{2} = \operatorname{E}\left[
+                 (\hat{x} - x)^{T} (\hat{x} - x) \right] =
+                 \operatorname{Tr}\left( K R K^{T} \right)
             \end{equation*}
 
             Our mission now becomes
 
             \begin{align*}
-                & \argmin_{K_{k}} \operatorname{Tr}\left( K_{k} R_{k} K_{k}^{T} \right) \\ 
-                & \operatorname{s.t.} K_{k}H_{k} = I
+                & \argmin_{K} \operatorname{Tr}\left( K R K^{T} \right) \\
+                & \operatorname{s.t.} KH = I_{n}
             \end{align*}
 
-            The equivalent form is
+            This is an optimization problem with $ n \times n $ constraints.
 
-            \begin{align*}
-                 & \argmin_{k_{i}} k_{i} R_{k} k_{i}^{T} \\
-                 & \operatorname{s.t.} k_{i}h_{j} = \delta_{ij}
-            \end{align*}
-
-            where $ h_{j} $ is the $ j $th column of $ H_{k} $ and $ k_{i} $ is
-            the $ i $th row of $ K_{k} $.
-
+            \# Proof Needed, ref: Ch4.4 in Optimization-Vector-Space-Methods-Luenberger
 
     \section{Main Theorem}
 
+        \begin{theorem}
 
-    \begin{theorem}
-        The optimal estimate $ \hat{x}_{k+1} $ and $ P_{k+1} $ can be generated
-        recursively as
+            The optimal estimate $ \hat{x}_{k+1} $ and $ P_{k+1} $ can be generated
+            recursively as
 
-        \begin{align*}
-            \hat{x}_{k+1} &= F_{k} \hat{x}_{k} + F_{k} P_{k} H_{k}^{T}\left[
-             H_{k} P_{k} H_{k}^{T} + R_{k} \right]^{-1}\left( z_{k} - H_{k} \hat{x}_{k} \right) \\
-            P_{k+1} &= F_{k}P_{k}\left\{ I - H_{k}^{T}\left[ H_{k} P_{k}
-                H_{k}^{T} + R_{k} \right]^{-1} H_{k} P_{k} \right\} F_{k}^{T} +
-                Q_{k}
-        \end{align*}
-    \end{theorem}
+            \begin{align*}
+                \hat{x}_{k+1} &= F_{k} \hat{x}_{k} + F_{k} P_{k} H_{k}^{T}\left[
+                 H_{k} P_{k} H_{k}^{T} + R_{k} \right]^{-1}\left( z_{k} - H_{k} \hat{x}_{k} \right) \\
+                P_{k+1} &= F_{k}P_{k}\left\{ I - H_{k}^{T}\left[ H_{k} P_{k}
+                    H_{k}^{T} + R_{k} \right]^{-1} H_{k} P_{k} \right\} F_{k}^{T} +
+                    Q_{k}
+            \end{align*}
 
-    \begin{proof}
-        Suppose we have $ \hat{x}_{k-1} $ and $ P_{k-1} $. At $ k $, we obtain
-        a new measurement
+        \end{theorem}
 
-        \begin{equation*}
-             z_{k} = H_{k} x_{k} + w_{k}
-        \end{equation*}
+        \begin{proof}
 
-        which gives us additional information about $ x_{k} $.
-    \end{proof}
+            Suppose we have $ \hat{x}_{k-1} $ and $ P_{k-1} $. At $ k $, we obtain
+            a new measurement
+
+            \begin{equation*}
+                 z_{k} = H_{k} x_{k} + w_{k}
+            \end{equation*}
+
+            which gives us additional information about $ x_{k} $.
+
+        \end{proof}
 
 \end{document}
