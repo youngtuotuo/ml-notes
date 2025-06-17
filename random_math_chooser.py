@@ -12,5 +12,6 @@ choices = ["Calculus",
            "Algebraic Topology",
            "Real Analysis",
            "Functional Analysis",
-           "Complexe Analysis"]
+           "Complexe Analysis",
+           "Machine Learning (Any topic)"]
 print(random.choice(choices))
